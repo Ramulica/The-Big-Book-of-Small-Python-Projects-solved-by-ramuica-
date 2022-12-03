@@ -8,3 +8,4 @@
 - gold dice: 3 stars, 2 questions, 1 skull
 - silver dice: 2 stars, 2 questions, 2 skulls
 - bronze dice: 1 star, 2 questions, 3 skulls
+
