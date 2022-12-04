@@ -1,5 +1,5 @@
-Games played: 3
-Max winning streak: 2
+Games played: 0
+Max winning streak: 0
 Current winning streak: 0
 Guess distribution:
 1 guess: 0
