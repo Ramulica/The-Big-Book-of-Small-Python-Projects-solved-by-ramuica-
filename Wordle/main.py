@@ -91,6 +91,8 @@ def change_game_log(win_lose: bool, guess_round: str):
     if win_lose:
         if int(content[2][-1]) + 1 > int(content[1][-1]):
             new_content.append(f"{content[1][0:-1]}{str(int(content[2][-1]) + 1)}")
+        else:
+            new_content.append(content[1])
         new_content.append(f"{content[2][0:-1]}{str(int(content[2][-1]) + 1)}")
         new_content.append(content[3])
         for item in content[4::]:
@@ -99,13 +101,11 @@ def change_game_log(win_lose: bool, guess_round: str):
             else:
                 new_content.append(item)
     else:
-        new_content.append(content[1])
-        for item in content[2::]:
-
-            if item == "Guess distribution:":
-                new_content.append("Guess distribution:")
+        for item in content[1::]:
+            if item[0:-1] == "Current winning streak: ":
+                new_content.append("Current winning streak: 0")
             else:
-                new_content.append(f"{item[0:-1]}0")
+                new_content.append(item)
     with open("winning streak.txt", "w") as fw:
         for item in new_content:
            fw.write(item + "\n")
