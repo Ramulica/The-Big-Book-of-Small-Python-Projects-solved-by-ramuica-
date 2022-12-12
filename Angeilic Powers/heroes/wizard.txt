@@ -1,0 +1,35 @@
+abilities:
+
+magic missile (basic attack) : wizard shoots a beam that does 120% damage shared between all alive enemies, regenerates 15 mana(magical damage)
+freezing ground : does 100% damage to all enemies and has 70% chance to freeze them for 2 rounds. cost 25 mana (magical damage)
+fire bird : does 200% damage to 2 random  enemies and applies burn to them 100% for 3 rounds, if they are frozen they take double damage. cost 35 mana (magical damage)
+back in time: everything goes back in time for 4 rounds except the effects used by wizard and ever. cost all mana (freeze, burn, blind)
+sun ray (ultimate): does 1500% damage to one enemy and blinds him for 2 rounds. if target is burned, it heals you for 10% of damage done. cost 50 mana(pure damage)
+
+passives:
+
+wizard regenerates 15 mana every round.
+for every effect he successfully applies to an enemy his control immunity grows with 3%, and his speed with 5(if he turns back time control immunity stays the same)
+After every combat he heals 3% for every effect he successfully applies to an enemy
+wizards can crit with abilities but they start with 0 0 crit/crit dmg
+
+effects:
+
+freeze - immobilizes an enemy
+burn - does the specified damage every round:
+blind - makes an enemy miss their basic attack
+intel points give wizards 1 point of damage and 0.25 mana
+
+basic stats:
+
+intelligence(primary attribute): 40
+hp: 850
+damage: 45
+speed: 200
+crit chance: 0%
+crit hit damage: 0%
+armor: 3
+magic resistance: 5
+dodge : 0%
+control immunity : 0%
+mana: 70

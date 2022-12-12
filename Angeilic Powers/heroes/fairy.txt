@@ -1,0 +1,35 @@
+abilities:
+
+the call of the vines (basic attack): deals 50% damage to two random enemies and has 40% to root them
+wolf's howl: she summons two wolves by her side which have 15% of your max hp, every round the wolves lose 20%, he attacks one enemy every round doing 150% of your damage, and inflicts wounded for 2 rounds. costs 20 mana
+loving touch: She heals her and all her units for 20% of fairy's max hp. costs 20 mana
+natures blessing: She cleanses all her allied units, and doubles their damage for 1 round. costs 35 mana
+The tree of origin: She summons a magical tree that has 70% hp of fairy's max hp, He attacks all enemies for 200% dmg of fairy's damage, every round its damage goes up with 50%. After 4 rounds the tree dies and deals 400% dmg to all enemies. costs 60 mana
+
+passives:
+
+fairys regenerates 5 mana for every allied unit alive including her
+every time she summons a unit she gets 2% of fairy's damage armor and magic resistance
+every 5 rounds a shrine appears which heals allied units including her for 20% hp of shrine's life. The shrine has 50% hp of fairy's max hp and loses 30% of his max hp every round
+
+effects:
+
+root - enemies can't cast spells that do direct damage or attack with basics
+wounded - reduces 50 % of enemy's heal
+blind - makes an enemy miss their basic attack
+her units inherit her speed, crit, crit dmg, armor(50%),magic resistance(50%), control immunity
+intel points give Fairys 1 point of damage and 0.25 mana
+
+basic stats:
+
+intelligence(primary attribute): 32
+hp: 1050
+damage: 40
+speed: 175
+crit chance: 15%
+crit hit damage: 50%
+armor: 7
+magic resistance: 7
+dodge : 0%
+control immunity : 15%
+mana: 60

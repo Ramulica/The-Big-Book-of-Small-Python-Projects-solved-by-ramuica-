@@ -1,0 +1,34 @@
+abilities:
+
+dark strike (basic attack): he does 100% damage to an enemy, and has a 50% chance to  create a shadow illusion
+triple trouble: he creates 3 illusions with double stats, and cleanses him self
+stealth dagger: all alive units shoot a dagger to an enemy for  120% of shadow's damage, if the enemy falls below 15% it is executed
+
+
+
+passives:
+
+shadow's illusions have 20% of shadow's max hp, 50% of shadow's damage and inherit all the other stats as they are. Max illusions 7. they last for 3 rounds
+every shadow has 15% chances to create a new shadow when he attacks
+
+
+effects:
+
+freeze - immobilizes an enemy
+burn - does the specified damage every round:
+blind - makes an enemy miss their basic attack
+intel points give wizards 1 point of damage and 0.25 mana
+
+basic stats:
+
+intelligence(primary attribute): 40
+hp: 850
+damage: 45
+speed: 200
+crit chance: 0%
+crit hit damage: 0%
+armor: 3
+magic resistance: 5
+dodge : 0%
+control immunity : 0%
+mana: 70

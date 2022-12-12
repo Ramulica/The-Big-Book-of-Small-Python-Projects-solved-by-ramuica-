@@ -1,0 +1,31 @@
+wizard
+0
+500
+0
+0
+0
+0
+crown legendary primary: 88 dodge: 21.6 speed: 68 mana: 19.4
+robe legendary primary 97 hp: 870 mr: 77 armor: 89
+boots rare primary: 22 speed: 14 crit: 3.2 dodge: 6.4
+wand angelic primary: 200 crit: 40 crit_dmg: 200 hp: 2000
+the_eye angelic primary: 200 crit: 40 crit_dmg: 200 cc_immun: 0.2
+talisman rare primary: 30 speed: 17 crit: 3.1 dodge: 6.7
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
+empty
