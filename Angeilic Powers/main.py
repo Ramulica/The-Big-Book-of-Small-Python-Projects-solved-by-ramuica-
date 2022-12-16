@@ -120,7 +120,6 @@ def get_random_biome() -> str:
 
 def add_object_on_map(room: list, hero: str, column: int, row: int):
     """
-
     :param hero:
     :param room:
     :param column:
@@ -152,7 +151,7 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
                     if count_row_positions_actions >= column * 2:
                         break
 
-                output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + 2::]}")
+                output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + 1::]}")
         else:
             output.append(item)
     return output
@@ -183,7 +182,7 @@ def choose_enemy():
 
     :return:
     """
-    return random.choice(['👨🏿', '💀', '👺', '👹', '🕷', '🦂', '👻', '👽', '😈', '🌬', '🎃', '👾', '🐲', "🎭"])
+    return random.choice(['💀', '👺', '👹', '🕷', '🦂', '👻', '👽', '😈', '🌬', '🎃', '👾', '🐲', "🎭"])
 
 
 def get_hero_name() -> str:
@@ -595,7 +594,10 @@ def navigate_inventory(file):
                   "jewel(5)\ninventory(coresponding number)")
             option_s = get_correct_int_input("choose one option by writing its corresponding value:")
             if option_s <= 21:
-                print_item(inventory[option_s])
+                if inventory[option_s] == "empty":
+                    print("You don't have an item in that slot")
+                else:
+                    print_item(inventory[option_s])
             else:
                 print("Wrong value entered")
         elif option == "b":
@@ -606,7 +608,7 @@ def navigate_inventory(file):
         option = input("choose one option by writing its corresponding value:")
 
 
-def hero_movement(file, column: int, row: int, max_column: int, max_row: int):
+def hero_movement(file, column: int, row: int, max_column: int, max_row: int, room):
     """
 
     :param column:
@@ -618,56 +620,260 @@ def hero_movement(file, column: int, row: int, max_column: int, max_row: int):
     print("You can move by entering a sequence of movements:\n-go up(w)\n-go left(a)\n-go down(s)\n-go right(d)\n\n"
           "Other options:\nsee inventory(i)\nexit(e)")
     movement = str.lower(input("enter a sequence of movements:"))
-    if movement == "i":
-        print_inventory(file)
-        navigate_inventory(file)
-    if movement == "e":
-        return 0, 0
-    else:
-        while True:
+    correct_movement = 0
+    while True:
+        if movement == "i":
+            print_inventory(file)
+            navigate_inventory(file)
+        elif movement == "e":
+            print("Are you sure you want to exit?")
+            if get_answer():
+                return 0, 0
+        else:
             row_func = row
             column_func = column
             while True:
                 for ch in movement:
                     if ch not in "wasd":
                         print("incorrect sequence")
-                        movement = str.lower(input("enter a sequence of movements:"))
                         break
                 else:
+                    for ch in movement:
+                        if ch == "w":
+                            row_func -= 1
+                        if ch == "s":
+                            row_func += 1
+                        if ch == "a":
+                            column_func -= 1
+                        if ch == "d":
+                            column_func += 1
+                if 0 < column_func <= max_column and 0 < row_func <= max_row:
+                    print(f"Your room: {room}")
+                    print(f"column:{column_func}   row:{row_func}")
+                    return column_func, row_func
+                else:
+                    print("incorrect movement")
                     break
-            for ch in movement:
-                if ch == "w":
-                    row_func -= 1
-                if ch == "s":
-                    row_func += 1
-                if ch == "a":
-                    column_func -= 1
-                if ch == "d":
-                    column_func += 1
-            if 0 < column_func <= max_column and 0 < row_func <= max_row:
-                break
-            else:
-                print("incorrect movement")
-                movement = str.lower(input("enter a sequence of movements:"))
-        return column_func, row_func
+        movement = str.lower(input("enter a sequence of movements:"))
 
 
-biome = get_random_biome()
-length, height = generate_room_length_height()
-room_1 = generate_rooms(biome, length, height)
-room_1 = add_object_on_map(room_1, choose_enemy(), 5, 6)
-room_1 = add_object_on_map(room_1, choose_enemy(), 1, 6)
-room_1 = add_object_on_map(room_1, choose_enemy(), 5, 1)
-column, row = 1, 1
-room_1_h = add_object_on_map(room_1, "🧙", column, row)
-print_room(room_1_h, biome)
-while True:
-    column, row = hero_movement("ramulica.txt", column, row, length, height)
-    if column + row == 0:
-        break
+def village():
+    """
+
+    :return:
+    """
+    return ["", f"{'  ' * 2}⚒{'  ' * 3}‼", f"{'  ' * 7}", f"{'  ' * 3}⛲{'  ' * 3}", f"{'  ' * 7}", f"💍{'  ' * 2}💰{'  ' * 3}"]
+
+
+def print_village(village):
+    margin = f"\033[48;5;0m{' ' * 2}\033[0;0m"
+    print(f"\033[48;5;0m{' ' * 22}\033[0;0m")
+    print(f"\033[48;5;0m{'  ' * 2}\033[48;5;28m🏘🏠⛪\033[48;5;0m{'  ' * 2}\033[48;5;28m🏚🏤\033[48;5;0m   \033[0;0m")
+
+    print(f"{margin}{margin}\033[48;5;28m{village[1]}⛪{margin}")
+    print(f"{margin}{margin}\033[48;5;28m{village[2]}{margin}{margin}")
+    print(f"{margin}{margin}\033[48;5;28m{village[3]}{margin}{margin}")
+    print(f"{margin}\033[48;5;28m🏰{village[4]}{margin}{margin}")
+    print(f"{margin}\033[48;5;28m💒{village[5]}🏚{margin}")
+    print(f"\033[48;5;0m{'  ' * 1}\033[48;5;28m🏘🏠\033[48;5;0m{'  ' * 2}\033[48;5;28m🏚🏤\033[48;5;0m {'  ' * 3}\033[0;0m")
+    print(f"\033[48;5;0m{' ' * 22}\033[0;0m")
+
+
+def village_interface():
+
+    column_v, row_v = 1, 3
+    print(f"instructions")
+    village_with_hero = add_object_on_map(village(), "🧙‍", column_v, row_v)
+    print_village(village_with_hero)
+    while True:
+        column_v, row_v = hero_movement("ramulica.txt", column_v, row_v, 7, 5, "Village")
+        if column_v == 0 and row_v == 0:
+            return False
+        else:
+            village_with_hero = add_object_on_map(village(), "🧙", column_v, row_v)
+            print_village(village_with_hero)
+            if column_v == 7 and row_v == 1:
+                print("Do you want to go in a mission?")
+                if get_answer():
+                    return True
+            elif column_v == 1 and row_v == 5:
+                print("Do you want to buy something from jeweler?")
+                if get_answer():
+                    print("make jeweler interface")
+            elif column_v == 4 and row_v == 5:
+                print("Do you want to buy something from shop?")
+                if get_answer():
+                    print("make shop interface")
+            elif column_v == 3 and row_v == 1:
+                print("Do you want to craft something at the blacksmith?")
+                if get_answer():
+                    print("make blacksmith interface")
+
+
+def margin_random_generator(column, row):
+    cl_rw = ["x", "y"]
+    random.shuffle(cl_rw)
+    if cl_rw[0] == "x":
+        return [random.choice([column, 1]), random.choice(range(1, row))]
     else:
-        room_1_h = add_object_on_map(room_1, "🧙", column, row)
+        return [random.choice(range(1, column)), random.choice([row, 1])]
+
+
+def door_data(entrance, biome, column, row, next_room):
+    if entrance == "up":
+        return random.choice(range(2, column - 1)), 1, next_room, choose_door(biome)
+    elif entrance == "down":
+        return random.choice(range(2, column - 1)), row, next_room, choose_door(biome)
+    elif entrance == "right":
+        return column, random.choice(range(2, row - 1)), next_room, choose_door(biome)
+    elif entrance == "left":
+        return 1, random.choice(range(2, row - 1)), next_room, choose_door(biome)
+
+
+class Map:
+
+    def __init__(self, room, entrance, exit, length, height):
+        self.entrance = entrance
+        room_m = add_object_on_map(room, self.entrance[3], self.entrance[0], self.entrance[1])
+        self.exit = exit
+        room_m = add_object_on_map(room_m, self.exit[3], self.exit[0], self.exit[1])
+
+        self.enemy_1 = margin_random_generator(length, height), choose_enemy()
+        room_m = add_object_on_map(room_m, self.enemy_1[1], self.enemy_1[0][0], self.enemy_1[0][1])
+        self.enemy_2 = margin_random_generator(length, height), choose_enemy()
+        room_m = add_object_on_map(room_m, self.enemy_2[1], self.enemy_2[0][0], self.enemy_2[0][1])
+        self.enemy_3 = margin_random_generator(length, height), choose_enemy()
+        room_m = add_object_on_map(room_m, self.enemy_3[1], self.enemy_3[0][0], self.enemy_3[0][1])
+        if random.choice([True, False]):
+
+            self.enemy_4 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
+            room_m = add_object_on_map(room_m, self.enemy_4[1], self.enemy_4[0][0], self.enemy_4[0][1])
+        if random.choice([True, False]):
+            self.enemy_5 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
+            room_m = add_object_on_map(room_m, self.enemy_5[1], self.enemy_5[0][0], self.enemy_5[0][1])
+        if random.choice([True, False]):
+            self.enemy_6 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
+            room_m = add_object_on_map(room_m, self.enemy_6[1], self.enemy_6[0][0], self.enemy_6[0][1])
+        self.room = room_m
+
+
+
+def add_random_doors():
+    door_wall = ["up", "down"]
+    for _ in range(5):
+        if door_wall[-1] == "down":
+            door_wall.extend(random.choice([['up', 'down'], ['right', 'left'], ['left', 'right']]))
+        elif door_wall[-1] == "up":
+            door_wall.extend(random.choice([['down', 'up'], ['right', 'left'], ['left', 'right']]))
+        elif door_wall[-1] == "left":
+            door_wall.extend(random.choice([['down', 'up'], ['right', 'left'], ['up', 'down']]))
+        elif door_wall[-1] == "right":
+            door_wall.extend(random.choice([['down', 'up'], ['up', 'down'], ['left', 'right']]))
+    return door_wall[1::]
+
+
+door_map_concatenation = add_random_doors()
+biome = get_random_biome()
+length_1, height_1 = generate_room_length_height()
+length_2, height_2 = generate_room_length_height()
+length_3, height_3 = generate_room_length_height()
+length_4, height_4 = generate_room_length_height()
+length_5, height_5 = generate_room_length_height()
+length_6, height_6 = generate_room_length_height()
+
+length_list = [length_1, length_2, length_3, length_4, length_5, length_6]
+height_list = [height_1, height_2, height_3, height_4, height_5, height_6]
+
+map_layout = [Map(generate_rooms(biome, length_1, height_1),
+                  door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
+                  door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1),
+              Map(generate_rooms(biome, length_2, height_2),
+                  door_data(door_map_concatenation[2], biome, length_2, height_2, 0),
+                  door_data(door_map_concatenation[3], biome, length_2, height_2, 2), length_2, height_2),
+              Map(generate_rooms(biome, length_3, height_3),
+                  door_data(door_map_concatenation[4], biome, length_3, height_3, 1),
+                  door_data(door_map_concatenation[5], biome, length_3, height_3, 3), length_3, height_3),
+              Map(generate_rooms(biome, length_4, height_4),
+                  door_data(door_map_concatenation[6], biome, length_4, height_4, 2),
+                  door_data(door_map_concatenation[7], biome, length_4, height_4, 4), length_4, height_4),
+              Map(generate_rooms(biome, length_5, height_5),
+                  door_data(door_map_concatenation[6], biome, length_5, height_5, 3),
+                  door_data(door_map_concatenation[7], biome, length_5, height_5, 5), length_5, height_5),
+              Map(generate_rooms(biome, length_6, height_6),
+                  door_data(door_map_concatenation[6], biome, length_6, height_6, 4),
+                  door_data(door_map_concatenation[7], biome, length_6, height_6, 6), length_6, height_6)
+              ]
+
+room_index = 0
+while village_interface():
+    print("Do you want to continue on the same map or not?")
+    if not get_answer():
+        door_map_concatenation = add_random_doors()
+        biome = get_random_biome()
+        length_1, height_1 = generate_room_length_height()
+        length_2, height_2 = generate_room_length_height()
+        length_3, height_3 = generate_room_length_height()
+        length_4, height_4 = generate_room_length_height()
+        length_5, height_5 = generate_room_length_height()
+        length_6, height_6 = generate_room_length_height()
+
+        length_list = [length_1, length_2, length_3, length_4, length_5, length_6]
+        height_list = [height_1, height_2, height_3, height_4, height_5, height_6]
+
+        map_layout = [Map(generate_rooms(biome, length_1, height_1),
+                          door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
+                          door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1),
+                      Map(generate_rooms(biome, length_2, height_2),
+                          door_data(door_map_concatenation[2], biome, length_2, height_2, 0),
+                          door_data(door_map_concatenation[3], biome, length_2, height_2, 2), length_2, height_2),
+                      Map(generate_rooms(biome, length_3, height_3),
+                          door_data(door_map_concatenation[4], biome, length_3, height_3, 1),
+                          door_data(door_map_concatenation[5], biome, length_3, height_3, 3), length_3, height_3),
+                      Map(generate_rooms(biome, length_4, height_4),
+                          door_data(door_map_concatenation[6], biome, length_4, height_4, 2),
+                          door_data(door_map_concatenation[7], biome, length_4, height_4, 4), length_4, height_4),
+                      Map(generate_rooms(biome, length_5, height_5),
+                          door_data(door_map_concatenation[6], biome, length_5, height_5, 3),
+                          door_data(door_map_concatenation[7], biome, length_5, height_5, 5), length_5, height_5),
+                      Map(generate_rooms(biome, length_6, height_6),
+                          door_data(door_map_concatenation[6], biome, length_6, height_6, 4),
+                          door_data(door_map_concatenation[7], biome, length_6, height_6, 6), length_6, height_6)
+                      ]
+
+    column, row = map_layout[room_index].entrance[0], map_layout[room_index].entrance[1]
+    room_1_h = add_object_on_map(map_layout[room_index].room, "🧙", column, row)
+    print_room(room_1_h, biome)
+    while True:
+        column, row = hero_movement("ramulica.txt", column, row, length_list[room_index], height_list[room_index], room_index)
+        if column + row == 0:
+            break
+        elif column == map_layout[room_index].exit[0] and row == map_layout[room_index].exit[1]:
+            room_1_h = add_object_on_map(map_layout[room_index].room, "🧙", column, row)
+            print_room(room_1_h, biome)
+            print(room_index)
+            print(f"Do you want to go to room {map_layout[room_index].exit[2]}")
+            if get_answer():
+                room_index = map_layout[room_index].exit[2]
+                column, row = map_layout[room_index].entrance[0], map_layout[room_index].entrance[1]
+        elif column == map_layout[room_index].entrance[0] and row == map_layout[room_index].entrance[1]:
+            room_1_h = add_object_on_map(map_layout[room_index].room, "🧙", column, row)
+            print_room(room_1_h, biome)
+            print(f"Do you want to go to room {map_layout[room_index].entrance[2]}")
+            if get_answer():
+                if map_layout[room_index].entrance[2] == "Village":
+                    break
+                else:
+                    room_index = map_layout[room_index].entrance[2]
+                    column, row = map_layout[room_index].exit[0], map_layout[room_index].exit[1]
+
+        room_1_h = add_object_on_map(map_layout[room_index].room, "🧙", column, row)
         print_room(room_1_h, biome)
+
+
+
+
+
+
 
 
 
