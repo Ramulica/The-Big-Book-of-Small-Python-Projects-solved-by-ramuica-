@@ -2200,6 +2200,8 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
     output = []
     count_row_positions = 0
     count_row_positions_actions = 0
+    last_ch = 0
+    space_len = 1
 
     for i, item in enumerate(room):
         if i == row:
@@ -2209,7 +2211,7 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
                 else:
                     output.append(f"{hero}{item[1::]}")
             else:
-                for ch in item:
+                for i, ch in enumerate(item):
 
                     if ch == " ":
                         count_row_positions += 1
@@ -2217,14 +2219,20 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
                     elif ch != " ":
                         count_row_positions += 1
                         count_row_positions_actions += 2
+                    last_ch = i
 
                     if count_row_positions_actions >= column * 2:
                         break
-
-                output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + 1::]}")
+                try:
+                    if item[i + 1] == " ":
+                        space_len = 2
+                except IndexError:
+                        space_len = 1
+                output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + space_len::]}")
         else:
             output.append(item)
     return output
+
 
 
 def choose_door(biome: str):
@@ -2804,26 +2812,42 @@ class Map:
     def __init__(self, room, entrance, exit, length, height):
         self.entrance = entrance
         room_m = add_object_on_map(room, self.entrance[3], self.entrance[0], self.entrance[1])
+
         self.exit = exit
         room_m = add_object_on_map(room_m, self.exit[3], self.exit[0], self.exit[1])
 
-        self.enemy_1 = margin_random_generator(length, height), choose_enemy()
-        room_m = add_object_on_map(room_m, self.enemy_1[1], self.enemy_1[0][0], self.enemy_1[0][1])
-        self.enemy_2 = margin_random_generator(length, height), choose_enemy()
-        room_m = add_object_on_map(room_m, self.enemy_2[1], self.enemy_2[0][0], self.enemy_2[0][1])
-        self.enemy_3 = margin_random_generator(length, height), choose_enemy()
-        room_m = add_object_on_map(room_m, self.enemy_3[1], self.enemy_3[0][0], self.enemy_3[0][1])
-        if random.choice([True, False]):
+        list_of_enemies = []
 
-            self.enemy_4 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
-            room_m = add_object_on_map(room_m, self.enemy_4[1], self.enemy_4[0][0], self.enemy_4[0][1])
+        self.enemy_1 = margin_random_generator(length, height), choose_enemy(), "alive"
+        # room_m = add_object_on_map(room_m, self.enemy_1[1], self.enemy_1[0][0], self.enemy_1[0][1])
+        list_of_enemies.append(self.enemy_1)
+
+        self.enemy_2 = margin_random_generator(length, height), choose_enemy(), "alive"
+        list_of_enemies.append(self.enemy_2)
+
+        self.enemy_3 = margin_random_generator(length, height), choose_enemy(), "alive"
+        list_of_enemies.append(self.enemy_3)
+
         if random.choice([True, False]):
-            self.enemy_5 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
-            room_m = add_object_on_map(room_m, self.enemy_5[1], self.enemy_5[0][0], self.enemy_5[0][1])
+            self.enemy_4 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            list_of_enemies.append(self.enemy_4)
+
         if random.choice([True, False]):
-            self.enemy_6 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
-            room_m = add_object_on_map(room_m, self.enemy_6[1], self.enemy_6[0][0], self.enemy_6[0][1])
-        self.room = room_m
+            self.enemy_5 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            list_of_enemies.append(self.enemy_5)
+
+        if random.choice([True, False]):
+            self.enemy_6 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            list_of_enemies.append(self.enemy_6)
+
+        self.room_m = room_m
+        self.list_of_enemies = list_of_enemies
+
+        for item in self.list_of_enemies:
+            if item[-1] == "alive":
+                room_e = add_object_on_map(room_m, item[1], item[0][0], item[0][1])
+
+        self.room = room_e
 
 
 
@@ -2844,45 +2868,25 @@ def add_random_doors():
 door_map_concatenation = add_random_doors()
 biome = get_random_biome()
 length_1, height_1 = generate_room_length_height()
-length_2, height_2 = generate_room_length_height()
-length_3, height_3 = generate_room_length_height()
-length_4, height_4 = generate_room_length_height()
-length_5, height_5 = generate_room_length_height()
-length_6, height_6 = generate_room_length_height()
 
-map_layout = [Map(generate_rooms(biome, length_1, height_1),
-              door_data(door_map_concatenation[0], biome, length_1, height_1, "v"),
-              door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1),
-              Map(generate_rooms(biome, length_2, height_2),
-              door_data(door_map_concatenation[2], biome, length_2, height_2, 0),
-              door_data(door_map_concatenation[3], biome, length_2, height_2, 2), length_2, height_2),
-              Map(generate_rooms(biome, length_3, height_3),
-              door_data(door_map_concatenation[4], biome, length_3, height_3, 1),
-              door_data(door_map_concatenation[5], biome, length_3, height_3, 3), length_3, height_3),
-              Map(generate_rooms(biome, length_4, height_4),
-              door_data(door_map_concatenation[6], biome, length_4, height_4, 2),
-              door_data(door_map_concatenation[7], biome, length_4, height_4, 4), length_4, height_4),
-              Map(generate_rooms(biome, length_5, height_5),
-              door_data(door_map_concatenation[6], biome, length_5, height_5, 3),
-              door_data(door_map_concatenation[7], biome, length_5, height_5, 5), length_5, height_5),
-              Map(generate_rooms(biome, length_6, height_6),
-              door_data(door_map_concatenation[6], biome, length_6, height_6, 4),
-              door_data(door_map_concatenation[7], biome, length_6, height_6, 6), length_6, height_6)
-              ]
-room_index = 2
-print(f"Do you want to go to room {map_layout[room_index].exit}")
-print(map_layout[room_index].exit[2])
-#
-# length_1, height_1 = generate_room_length_height()
-# length_2, height_2 = generate_room_length_height()
-# length_3, height_3 = generate_room_length_height()
-# length_4, height_4 = generate_room_length_height()
-# length_5, height_5 = generate_room_length_height()
-# length_6, height_6 = generate_room_length_height()
-#
-# length_list = [length_1, length_2, length_3, length_4, length_5, length_6]
-# height_list = [height_1, height_2, height_3, height_4, height_5, height_6]
-#
-# print(length_list)
+room_1 = Map(generate_rooms(biome, length_1, height_1),
+             door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
+             door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1)
+print_room(room_1.room, biome)
+print(room_1.list_of_enemies)
+
+
+def generate_arena(player, enemies):
+    arena = [f"{' '* 54}"] * 17
+    column_row_l = [[14, 14], [10, 13], [18, 13], [6, 12], [22, 12], [2, 11], [26, 1]]
+    # for i, item in enumerate(player):
+    #     arena = add_object_on_map(arena, player[i][0], column_row_l[i][0], column_row_l[i][1])
+    for i, item in enumerate(enemies):
+        arena = add_object_on_map(arena, enemies[i][0], column_row_l[i][0], column_row_l[i][1] + 2)
+    return arena
+
+
+# for item in generate_arena([["🧙"], ["⛩"], ["🧿"], ["🧙‍"]], [["🏰"], ["⛩"], ["🧿"], ["🧙‍"]]):
+#     print(item)
 
 
