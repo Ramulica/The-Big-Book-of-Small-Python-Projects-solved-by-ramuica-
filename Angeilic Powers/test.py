@@ -2865,28 +2865,56 @@ def add_random_doors():
     return door_wall[1::]
 
 
-door_map_concatenation = add_random_doors()
-biome = get_random_biome()
-length_1, height_1 = generate_room_length_height()
-
-room_1 = Map(generate_rooms(biome, length_1, height_1),
-             door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
-             door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1)
-print_room(room_1.room, biome)
-print(room_1.list_of_enemies)
-
-
+# door_map_concatenation = add_random_doors()
+# biome = get_random_biome()
+# length_1, height_1 = generate_room_length_height()
+#
+# room_1 = Map(generate_rooms(biome, length_1, height_1),
+#              door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
+#              door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1)
+# print_room(room_1.room, biome)
+# print(room_1.list_of_enemies)
 def generate_arena(player, enemies):
-    arena = [f"{' '* 54}"] * 17
-    column_row_l = [[14, 14], [10, 13], [18, 13], [6, 12], [22, 12], [2, 11], [26, 1]]
-    # for i, item in enumerate(player):
-    #     arena = add_object_on_map(arena, player[i][0], column_row_l[i][0], column_row_l[i][1])
+    arena = [f"{' '* 54}"] * 15
+    column_row_l = [[14, 12], [10, 11], [18, 11], [6, 10], [22, 10], [2, 9], [26, 9]]
+    effects_coordinates = [[0, 1], [-1, 1], [1, 1], [0, 2], [-1, 2], [1, 2]]
+    for i, item in enumerate(player):
+        for i_1, effect in enumerate(item[1::]):
+            arena = add_object_on_map(arena, effect, column_row_l[i][0] + effects_coordinates[i_1][0],
+                                      column_row_l[i][1] - effects_coordinates[i_1][1])
+
+        arena = add_object_on_map(arena, player[i][0], column_row_l[i][0], column_row_l[i][1])
     for i, item in enumerate(enemies):
-        arena = add_object_on_map(arena, enemies[i][0], column_row_l[i][0], column_row_l[i][1] + 2)
+        for i_1, effect in enumerate(item[1::]):
+            arena = add_object_on_map(arena, effect, column_row_l[i][0] + effects_coordinates[i_1][0],
+                                      column_row_l[i][1] - effects_coordinates[i_1][1] - 6)
+        arena = add_object_on_map(arena, enemies[i][0], column_row_l[i][0], column_row_l[i][1] - 6)
     return arena
+"""
+player: [[][]]
+"""
+def printe_arena(arena, player, mana):
+    margin = f"\033[48;5;16m  \033[0;0m"
+
+    print(f"{margin}\033[48;5;16m{arena[0]}\033[0;0m{margin}")
+    for item in arena[1:-1]:
+        line = ""
+        for ch in item:
+            if ch != " ":
+                line += f"\033[48;5;246m{ch}\033[48;5;236m"
+            else:
+                line += ch
+        print(f"{margin}\033[48;5;236m{line}\033[0;0m{margin}")
+    print(f"{margin}\033[48;5;16m{arena[-1]}\033[0;0m{margin}")
+    print("\nabilities")
+    print(f"player({player[0]}/{player[1]}): \033[48;5;46m{' ' * int((player[0] * 100) / player[1])}\033[48;5;196m{' ' * int(100 - ((player[0] * 100) / player[1]))}\033[0;0m")
+    print(f"Mana({mana[0]}/{mana[1]}):   \033[48;5;21m{' ' * int((mana[0] * 60) / mana[1])}\033[48;5;38m{' ' * int(60 - ((mana[0] * 60) / mana[1]))}\033[0;0m")
+
+class Combatant_izoteric:
+    def __init__(self, symbol, life):
+        self.symbol = symbol
+        self.life = life
 
 
-# for item in generate_arena([["🧙"], ["⛩"], ["🧿"], ["🧙‍"]], [["🏰"], ["⛩"], ["🧿"], ["🧙‍"]]):
-#     print(item)
 
 

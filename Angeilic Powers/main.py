@@ -328,8 +328,8 @@ def get_hero_symbol(hero_name):
     output = ""
     changed_directory = 0
     main_path = os.getcwd()
-    if main_path != "C:\\Users\\andre\\PycharmProjects\\" \
-                    "The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angelic Powers\\Your_characters":
+
+    if main_path != "C:\\Users\\andre\\PycharmProjects\\The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angeilic Powers\\Your_characters":
         os.chdir("Your_characters")
         changed_directory = 1
     for item in os.listdir():
@@ -395,11 +395,9 @@ def decide_what_hero_to_play():
         print("Do you want to create a new hero or to play an existing one?\nCreate(c)\nChoose existing hero(e)")
         option = input("\nChoose an option by writing his corresponding letter: ")
         if option == "e":
-            print(play_existing_hero())
-            break
+            return play_existing_hero()
         elif option == "c":
-            print(create_hero())
-            break
+            return create_hero()
         else:
             print("\nthe letter you choose doesn't correspond to any option. Try again\n")
 
@@ -636,6 +634,7 @@ def hero_movement(file, column: int, row: int, max_column: int, max_row: int, ro
         if movement == "i":
             print_inventory(file)
             navigate_inventory(file)
+            return column, row
         elif movement == "e":
             print("Are you sure you want to exit?")
             if get_answer():
@@ -673,7 +672,7 @@ def village():
 
     :return:
     """
-    return ["", f"{'  ' * 2}⚒{'  ' * 3}‼", f"{'  ' * 7}", f"{'  ' * 3}⛲{'  ' * 3}", f"{'  ' * 7}", f"💍{'  ' * 2}💰{'  ' * 3}"]
+    return ["", f"{'  ' * 2}⚒{'  ' * 3}‼", f"{'  ' * 7}", f"{'  ' * 3}⛲{'  ' * 3}", f"{'  ' * 7}", f"💍{'  ' * 2}💰{'  ' * 2}📕"]
 
 
 def print_village(village):
@@ -690,18 +689,18 @@ def print_village(village):
     print(f"\033[48;5;0m{' ' * 22}\033[0;0m")
 
 
-def village_interface():
+def village_interface(name):
 
     column_v, row_v = 1, 3
-    print(f"instructions")
-    village_with_hero = add_object_on_map(village(), "🧙‍", column_v, row_v)
+    print(f"Move to the book(📕) if you want to read the Tutorial, and the rules")
+    village_with_hero = add_object_on_map(village(), get_hero_symbol(name), column_v, row_v)
     print_village(village_with_hero)
     while True:
         column_v, row_v = hero_movement("ramulica.txt", column_v, row_v, 7, 5, "Village")
         if column_v == 0 and row_v == 0:
             return False
         else:
-            village_with_hero = add_object_on_map(village(), "🧙", column_v, row_v)
+            village_with_hero = add_object_on_map(village(), get_hero_symbol(name), column_v, row_v)
             print_village(village_with_hero)
             if column_v == 7 and row_v == 1:
                 print("Do you want to go in a mission?")
@@ -715,6 +714,10 @@ def village_interface():
                 print("Do you want to buy something from shop?")
                 if get_answer():
                     print("make shop interface")
+            elif column_v == 7 and row_v == 5:
+                print("Do you want to read the tutorial?")
+                if get_answer():
+                    print("Tutorial")
             elif column_v == 3 and row_v == 1:
                 print("Do you want to craft something at the blacksmith?")
                 if get_answer():
@@ -752,25 +755,25 @@ class Map:
 
         list_of_enemies = []
 
-        self.enemy_1 = margin_random_generator(length, height), choose_enemy(), "alive"
+        self.enemy_1 = margin_random_generator(length, height), choose_enemy()
         list_of_enemies.append(self.enemy_1)
 
-        self.enemy_2 = margin_random_generator(length, height), choose_enemy(), "alive"
+        self.enemy_2 = margin_random_generator(length, height), choose_enemy()
         list_of_enemies.append(self.enemy_2)
 
-        self.enemy_3 = margin_random_generator(length, height), choose_enemy(), "alive"
+        self.enemy_3 = margin_random_generator(length, height), choose_enemy()
         list_of_enemies.append(self.enemy_3)
 
         if random.choice([True, False]):
-            self.enemy_4 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            self.enemy_4 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
             list_of_enemies.append(self.enemy_4)
 
         if random.choice([True, False]):
-            self.enemy_5 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            self.enemy_5 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
             list_of_enemies.append(self.enemy_5)
 
         if random.choice([True, False]):
-            self.enemy_6 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy(), "alive"
+            self.enemy_6 = [random.choice(range(1, length)), random.choice(range(1, height))], choose_enemy()
             list_of_enemies.append(self.enemy_6)
 
         self.room = room_m
@@ -778,17 +781,12 @@ class Map:
 
         self.dead_enemies = []
 
-
-
-
-def room_final(door_room, enemies, dead_enemies):
-    room_e = door_room
-    for item in enemies:
-        if item[0] not in dead_enemies:
-            room_e = add_object_on_map(room_e, item[1], item[0][0], item[0][1])
-    return room_e
-
-
+    def room_final(self):
+        room_e = self.room
+        for item in self.list_of_enemies:
+            if item[0] not in self.dead_enemies:
+                room_e = add_object_on_map(room_e, item[1], item[0][0], item[0][1])
+        return room_e
 
 
 def add_random_doors():
@@ -805,8 +803,9 @@ def add_random_doors():
     return door_wall[1::]
 
 
-
-
+hero_file = decide_what_hero_to_play()
+hero_name = hero_file[0:hero_file.rfind(".")]
+hero_inventory = read_inventory(hero_file)
 
 
 door_map_concatenation = add_random_doors()
@@ -845,7 +844,7 @@ map_layout = [Map(generate_rooms(biome, length_1, height_1),
 
 
 room_index = 0
-while village_interface():
+while village_interface(hero_name):
     print("Do you want to continue on the same map or not?")
     if not get_answer():
         door_map_concatenation = add_random_doors()
@@ -881,23 +880,23 @@ while village_interface():
                       ]
 
     column, row = map_layout[room_index].entrance[0], map_layout[room_index].entrance[1]
-    room_1_h = add_object_on_map(room_final(map_layout[room_index].room, map_layout[room_index].list_of_enemies,
-                                            map_layout[room_index].dead_enemies), "🧙", column, row)
+    room_1_h = add_object_on_map(Map.room_final(map_layout[room_index]), get_hero_symbol(hero_name), column, row)
     print_room(room_1_h, biome)
     while True:
-        column, row = hero_movement("ramulica.txt", column, row, length_list[room_index], height_list[room_index], room_index)
+        column, row = hero_movement(hero_file, column, row, length_list[room_index], height_list[room_index], room_index)
         if column + row == 0:
             break
         for i, item in enumerate(map_layout[room_index].list_of_enemies):
             if column == item[0][0] and row == item[0][1] and item[0] not in map_layout[room_index].dead_enemies:
+                room_1_h = add_object_on_map(Map.room_final(map_layout[room_index]), get_hero_symbol(hero_name), column, row)
+                print_room(room_1_h, biome)
                 print(f"You've encountered an enemy {item[1]}. Do you want to fight it?")
                 if get_answer():
                     print("victory")
                     map_layout[room_index].dead_enemies.append(item[0])
                 break
         if column == map_layout[room_index].exit[0] and row == map_layout[room_index].exit[1]:
-            room_1_h = add_object_on_map(room_final(map_layout[room_index].room, map_layout[room_index].list_of_enemies,
-                                                    map_layout[room_index].dead_enemies), "🧙", column, row)
+            room_1_h = add_object_on_map(Map.room_final(map_layout[room_index]), get_hero_symbol(hero_name), column, row)
             print_room(room_1_h, biome)
             print(room_index)
             print(f"Do you want to go to room {map_layout[room_index].exit[2]}")
@@ -905,8 +904,7 @@ while village_interface():
                 room_index = map_layout[room_index].exit[2]
                 column, row = map_layout[room_index].entrance[0], map_layout[room_index].entrance[1]
         elif column == map_layout[room_index].entrance[0] and row == map_layout[room_index].entrance[1]:
-            room_1_h = add_object_on_map(room_final(map_layout[room_index].room, map_layout[room_index].list_of_enemies,
-                                                    map_layout[room_index].dead_enemies), "🧙", column, row)
+            room_1_h = add_object_on_map(Map.room_final(map_layout[room_index]), get_hero_symbol(hero_name), column, row)
             print_room(room_1_h, biome)
             print(f"Do you want to go to room {map_layout[room_index].entrance[2]}")
             if get_answer():
@@ -916,13 +914,8 @@ while village_interface():
                     room_index = map_layout[room_index].entrance[2]
                     column, row = map_layout[room_index].exit[0], map_layout[room_index].exit[1]
 
-        room_1_h = add_object_on_map(room_final(map_layout[room_index].room, map_layout[room_index].list_of_enemies,
-                                                map_layout[room_index].dead_enemies), "🧙", column, row)
+        room_1_h = add_object_on_map(Map.room_final(map_layout[room_index]), get_hero_symbol(hero_name), column, row)
         print_room(room_1_h, biome)
-
-
-
-
 
 
 
