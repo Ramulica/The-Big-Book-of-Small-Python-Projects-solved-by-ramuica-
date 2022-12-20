@@ -2893,7 +2893,7 @@ def generate_arena(player, enemies):
 """
 player: [[][]]
 """
-def printe_arena(arena, player, mana):
+def printe_arena(arena):
     margin = f"\033[48;5;16m  \033[0;0m"
 
     print(f"{margin}\033[48;5;16m{arena[0]}\033[0;0m{margin}")
@@ -2907,14 +2907,107 @@ def printe_arena(arena, player, mana):
         print(f"{margin}\033[48;5;236m{line}\033[0;0m{margin}")
     print(f"{margin}\033[48;5;16m{arena[-1]}\033[0;0m{margin}")
     print("\nabilities")
-    print(f"player({player[0]}/{player[1]}): \033[48;5;46m{' ' * int((player[0] * 100) / player[1])}\033[48;5;196m{' ' * int(100 - ((player[0] * 100) / player[1]))}\033[0;0m")
-    print(f"Mana({mana[0]}/{mana[1]}):   \033[48;5;21m{' ' * int((mana[0] * 60) / mana[1])}\033[48;5;38m{' ' * int(60 - ((mana[0] * 60) / mana[1]))}\033[0;0m")
+
+
+
+"""
+DATA
+intelligence(primary attribute): 40
+hp: 850
+damage: 45
+speed: 200
+crit chance: 0%
+crit hit damage: 0%
+armor: 3
+magic resistance: 5
+dodge : 0%
+control immunity : 0%
+mana: 70
+"""
+
+def data_sum(items, personal_stats):
+    pass
+
+
+def get_effect_symbol(effect):
+    effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸"}
+    for k, v in effects.items():
+        if effect == k:
+            return v
 
 class Combatant_izoteric:
-    def __init__(self, symbol, life):
+    def __init__(self, symbol, life, mana, data, good_bad_side):
         self.symbol = symbol
-        self.life = life
+        self.primary = data[0]
+        self.life = [life] + [data[1]]
+        self.damage = data[2]
+        self.speed = data[3]
+        self.crit = data[4]
+        self.crit_dmg = data[5]
+        self.armor = data[6]
+        self.mr = data[7]
+        self.dodge = data[8]
+        self.cc_immun = data[9]
+        self.mana = [mana] + [data[10]]
+        self.side = good_bad_side
+        self.effects = {}
+    def deal_damage_heal(self, damage):
+        if self.life[0] + damage <= self.life[1]:
+            self.life = [self.life[0] + damage] + [self.life[1]]
+        else:
+            self.life = [self.life[1]] + [self.life[1]]
 
+    def get_lose_mana(self, mana_difference):
+        if self.mana[0] + mana_difference <= self.mana[1]:
+            self.mana = [self.mana[0] + mana_difference] + [self.mana[1]]
+        else:
+            self.mana = [self.mana[1]] + [self.mana[1]]
+
+    def round_end_effect(self):
+        output = {}
+        for k, v in self.effects.items():
+            if v > 0:
+                output[k] = v - 1
+        self.effects = output
+
+    def printable_symbols(self):
+        return [self.symbol] + [get_effect_symbol(k) for k, v in self.effects.items()]
+    # def crit_mecanic(self):
+    #     if self.crit >= 100:
+    #         pass
+    #     else:
+    #         x = random.choice([1] * self.crit + [0] * (100 - self.crit))
+    #         if x == 1:
+
+    def basic_attack(self, hero_class):
+        if hero_class == "wizard":
+            Combatant_izoteric.get_lose_mana(15)
+
+            return
+
+
+
+
+enemy_1 = Combatant_izoteric("🤖", 400, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil")
+enemy_1.effects["freeze"] = 2
+enemy_1.effects["burn"] = 3
+enemy_1.effects["bleed"] = 4
+print(enemy_1.effects, enemy_1.life, enemy_1.mana)
+Combatant_izoteric.round_end_effect(enemy_1)
+
+Combatant_izoteric.deal_damage_heal(enemy_1, 1000)
+Combatant_izoteric.get_lose_mana(enemy_1, -20)
+print(enemy_1.effects, enemy_1.life, enemy_1.mana)
+
+enemy_2 = Combatant_izoteric("🧙‍", 400, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good")
+enemy_2.effects["freeze"] = 2
+enemy_2.effects["burn"] = 3
+enemy_2.effects["bleed"] = 4
+print(enemy_1.effects, enemy_1.life, enemy_1.mana)
+Combatant_izoteric.round_end_effect(enemy_1)
+Combatant_izoteric.deal_damage_heal(enemy_1, 1000)
+Combatant_izoteric.get_lose_mana(enemy_1, -20)
+print(enemy_1.effects, enemy_1.life, enemy_1.mana)
 
 
 

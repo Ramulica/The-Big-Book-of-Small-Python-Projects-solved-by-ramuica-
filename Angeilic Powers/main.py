@@ -225,7 +225,7 @@ def get_hero_name() -> str:
 
 
 def write_hero_data(hero_name: str, hero_class: str, level: str,
-                    gold: str, materials: dict, gear: dict, inventory: list):
+                    gold: str, materials: dict, gear: dict, inventory: list, stats):
     """
 
     :return:
@@ -239,6 +239,8 @@ def write_hero_data(hero_name: str, hero_class: str, level: str,
         new_data.append(f"{v_1}")
     for item in inventory:
         new_data.append(item)
+    for item_1 in stats:
+        new_data.append(item_1)
     os.chdir("Your_characters")
 
     with open(f"{hero_name}.txt", "w") as fw:
@@ -277,7 +279,8 @@ def create_hero():
     print(
         "Choose a class for your hero:\nWizard(🧙)\nShadow(👤‍)\nVampire(🧛‍)\nfairy.txt(🧚‍)\nTriton(🧜)\nSpirit(🧞‍)")
     hero_class = str.lower(input("Choose one option by writing the class name:"))
-    classes = ["wizard", "shadow", "vampire", "fairy", "triton", "spirit"]
+    classes = ["wizard", "shadow", "fairy"]  # ["wizard", "shadow", "vampire", "fairy", "triton", "spirit"]
+    classes_stats = {"wizard": [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "fairy": [32, 1050, 40, 175, 15, 50, 7, 7, 0, 15, 60]}
     while True:
 
         while hero_class not in classes:
@@ -414,7 +417,7 @@ def read_inventory(file):
         content = fr.readlines()
     os.chdir(main_path)
     inventory = [item.strip() for item in content]
-    return inventory
+    return inventory[0:31]
 
 
 def get_random_rarity(difficulty):
@@ -779,8 +782,7 @@ class Map:
         self.room = room_m
         self.list_of_enemies = list_of_enemies
 
-        self.dead_enemies = []
-
+        self.dead_enemies =
     def room_final(self):
         room_e = self.room
         for item in self.list_of_enemies:
