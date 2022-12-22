@@ -2930,7 +2930,7 @@ def data_sum(items, personal_stats):
 
 
 def get_effect_symbol(effect):
-    effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸"}
+    effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸", "blind": "✨"}
     for k, v in effects.items():
         if effect == k:
             return v
@@ -2951,6 +2951,7 @@ class Combatant_izoteric:
         self.mana = [mana] + [data[10]]
         self.side = good_bad_side
         self.effects = {}
+
     def deal_damage_heal(self, damage):
         if self.life[0] + damage <= self.life[1]:
             self.life = [self.life[0] + damage] + [self.life[1]]
@@ -2972,42 +2973,180 @@ class Combatant_izoteric:
 
     def printable_symbols(self):
         return [self.symbol] + [get_effect_symbol(k) for k, v in self.effects.items()]
-    # def crit_mecanic(self):
-    #     if self.crit >= 100:
-    #         pass
-    #     else:
-    #         x = random.choice([1] * self.crit + [0] * (100 - self.crit))
-    #         if x == 1:
 
-    def basic_attack(self, hero_class):
+    def crit_mechanic(self):
+        if self.crit >= 100:
+            return self.damage + (self.damage * (self.crit_dmg + self.crit - 100) / 100)
+        else:
+            x = random.choice([1] * self.crit + [0] * (100 - self.crit))
+            if x == 1:
+                return self.damage + (self.damage * self.crit_dmg / 100)
+            else:
+                return self.damage
+
+    def basic_attack_class(self, hero_class, enemies_l):
+        output = []
         if hero_class == "wizard":
-            Combatant_izoteric.get_lose_mana(15)
+            Combatant_izoteric.get_lose_mana(self, 15)
+            for _ in range(len(enemies_l)):
+                output.append([Combatant_izoteric.crit_mechanic(self)/len(enemies_l), []])
+        return output, "magical", "all"
 
-            return
+    def first_ability(self, hero_class, enemies_l):
+        output = []
+        if hero_class == "wizard":
+            if self.mana[0] >= 25:
+                Combatant_izoteric.get_lose_mana(self, -25)
+                for _ in range(len(enemies_l)):
+                    output.append([Combatant_izoteric.crit_mechanic(self), [f'{random.choice(["freeze"] * 70 + ["none"] * 30)}2']])
+            else:
+                print("not enough mana")
+                return "error"
+        return output, "magical", "damage"
+
+    def second_ability(self, hero_class, enemies_l):
+        output = []
+        if hero_class == "wizard":
+            if self.mana[0] >= 35:
+                Combatant_izoteric.get_lose_mana(self, -35)
+                try:
+                    attack_eneies = random.sample(range(len(enemies_l)), 2)
+                except:
+                    attack_eneies = [0]
+                for i in range(len(enemies_l)):
+                    if i in attack_eneies:
+                        if "freeze" in [item[0:-1] for item in enemies_l[i]]:
+                            output.append([Combatant_izoteric.crit_mechanic(self) * 4, ["burn3"]])
+                        else:
+                            output.append([Combatant_izoteric.crit_mechanic(self) * 2, ["burn3"]])
+                    else:
+                        output.append([0, []])
+            else:
+                print("not enough mana")
+                return "error"
+        return output, "magical", "damage"
+
+    def third_ability(self, hero_class, enemies_effects_l):
+        output = []
+        if hero_class == "wizard":
+            if self.mana[0] == self.mana[1]:
+                Combatant_izoteric.get_lose_mana(self, self.mana[1])
+                for item in enemies_effects_l:
+                    new_effects = []
+                    for effect in item:
+                        if effect[0:-1] == "freeze":
+                            new_effects.append("freeze2")
+                        elif effect[0:-1] == "burn":
+                            new_effects.append("burn3")
+                        else:
+                            new_effects.append(effect)
+                    output.append([0, new_effects])
+                return output, "magical", "round"
+            else:
+                print("Not enough mana")
+                return "error"
+
+    def forth_ability(self, hero_class, enemies_l):
+        output = []
+        if hero_class == "wizard":
+            if self.mana[0] >= 50:
+                Combatant_izoteric.get_lose_mana(self, -50)
+                attack_enemy = random.choice(range(len(enemies_l)))
+
+                for i in range(len(enemies_l)):
+                    if i == attack_enemy:
+                        if "burn" in [item[0:-1] for item in enemies_l[i]]:
+                            Combatant_izoteric.deal_damage_heal(self, int(self.damage * 15 * 0.1))
+                        output.append([Combatant_izoteric.crit_mechanic(self) * 15, ["blind2"]])
+                    else:
+                        output.append([0, []])
+            else:
+                print("not enough mana")
+                return "error"
+        return output, "pure", "damage"
+
+    def use_ability(self, hero_class, enemiy_l):
+        option = input("choose ability")
+        while True:
+            if option == "a":
+                return Combatant_izoteric.basic_attack_class(self, hero_class, enemiy_l)
+            elif option == "q":
+                return Combatant_izoteric.first_ability(self, hero_class, enemiy_l)
+            elif option == "w":
+                return Combatant_izoteric.second_ability(self, hero_class, enemiy_l)
+            elif option == "e":
+                return Combatant_izoteric.third_ability(self, hero_class, enemiy_l)
+            elif option == "r":
+                return Combatant_izoteric.forth_ability(self, hero_class, enemiy_l)
+            else:
+                option = input("choose ability")
+
+    def list_of_effects(self):
+        output = []
+        for k, v in self.effects.items():
+            output.append(f"{k}{v}")
+        return output
+
+def ability_effect(enemy_list, damage_effects):
+    if damage_effects[1] == "magical":
+        for i, item in enumerate(enemy_list):
+            damage = damage_effects[0][i][0] - item.mr
+            Combatant_izoteric.deal_damage_heal(item, -damage)
+            for effect in damage_effects[0][i][1]:
+                if effect[0:-1] != "none":
+                    item.effects[effect[0:-1]] = int(effect[-1])
+    if damage_effects[1] == "pure":
+        for i, item in enumerate(enemy_list):
+            damage = damage_effects[0][i][0]
+            Combatant_izoteric.deal_damage_heal(item, -damage)
+            for effect in damage_effects[0][i][1]:
+                if effect[0:-1] != "none":
+                    item.effects[effect[0:-1]] = int(effect[-1])
+
+def remove_dead_body(enemy_list):
+    for item in enemy_list:
+        if item.life[0] <= 0:
+            enemy_list.remove(item)
+    return enemy_list
 
 
 
 
-enemy_1 = Combatant_izoteric("🤖", 400, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil")
-enemy_1.effects["freeze"] = 2
-enemy_1.effects["burn"] = 3
-enemy_1.effects["bleed"] = 4
-print(enemy_1.effects, enemy_1.life, enemy_1.mana)
-Combatant_izoteric.round_end_effect(enemy_1)
 
-Combatant_izoteric.deal_damage_heal(enemy_1, 1000)
-Combatant_izoteric.get_lose_mana(enemy_1, -20)
-print(enemy_1.effects, enemy_1.life, enemy_1.mana)
 
-enemy_2 = Combatant_izoteric("🧙‍", 400, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good")
-enemy_2.effects["freeze"] = 2
-enemy_2.effects["burn"] = 3
-enemy_2.effects["bleed"] = 4
-print(enemy_1.effects, enemy_1.life, enemy_1.mana)
-Combatant_izoteric.round_end_effect(enemy_1)
-Combatant_izoteric.deal_damage_heal(enemy_1, 1000)
-Combatant_izoteric.get_lose_mana(enemy_1, -20)
-print(enemy_1.effects, enemy_1.life, enemy_1.mana)
+enemy_l = [Combatant_izoteric("🤖", 700, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 800, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           ]
+
+enemy_l[0].effects["bleed"] = 4
+
+
+enemy_2 = Combatant_izoteric("🧙‍", 400, 70, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good")
+
+
+enemy_l[1].effects["freeze"] = 1
+enemy_l[1].effects["burn"] = 1
+
+print(enemy_2.mana)
+
+list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
+print(f"enemy 1 life: {enemy_l[0].life}, enemy 2 life: {enemy_l[1].life}")
+print(f"enemy 1 effects: {enemy_l[0].effects}, enemy 2 effects: {enemy_l[1].effects}")
+while True:
+    ability_effect(enemy_l, Combatant_izoteric.use_ability(enemy_2, 'wizard', list_of_e))
+    print(enemy_2.mana)
+
+
+    # testez w, trebuie sa faci sa vada daca freez in [ [] [] ] sa dai ceva de genul split 🙄
+    list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
+    for item in enemy_l:
+        print(item.life, item.effects)
+    enemy_l = remove_dead_body(enemy_l)
+    for item in enemy_l:
+        Combatant_izoteric.round_end_effect(item)
+    if len(enemy_l) == 0:
+        break
+
 
 
 

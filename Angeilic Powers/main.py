@@ -782,7 +782,8 @@ class Map:
         self.room = room_m
         self.list_of_enemies = list_of_enemies
 
-        self.dead_enemies =
+        self.dead_enemies = []
+
     def room_final(self):
         room_e = self.room
         for item in self.list_of_enemies:
