@@ -66,8 +66,8 @@ import os
 #     print(f"\033[2;32;40m{room[0]}\033[0;0m")
 #     color, obstacles = get_color_biome(biome)
 #     margins = '\033[2;32;40m  '
-#     for item in room[1:-1]:
-#         print(f"{margins}{color}{item}{margins}\033[0;0m")
+#     for item_f in room[1:-1]:
+#         print(f"{margins}{color}{item_f}{margins}\033[0;0m")
 #     print(f"\033[2;32;40m{room[-1]}\033[0;0m")
 #
 # def get_random_biome() -> str:
@@ -93,13 +93,13 @@ import os
 #     hero_1 = f"{color}{hero}"
 #     count_range = 0
 #     output = []
-#     for i, item in enumerate(room):
+#     for i, item_f in enumerate(room):
 #         if i == row:
 #
-#             output.append(len(item))
+#             output.append(len(item_f))
 #
 #         else:
-#             output.append(item)
+#             output.append(item_f)
 #     return output
 #
 #
@@ -174,17 +174,17 @@ import os
 #
 #     main_path = os.getcwd()
 #     new_data = [hero_class, level, gold]
-#     for k, v in materials.items():
+#     for k, v in materials.item_fs():
 #         new_data.append(f"{v}")
-#     for k_1, v_1 in gear.items():
+#     for k_1, v_1 in gear.item_fs():
 #         new_data.append(f"{v_1}")
-#     for item in inventory:
-#         new_data.append(item)
+#     for item_f in inventory:
+#         new_data.append(item_f)
 #     os.chdir("Your_characters")
 #
 #     with open(f"{hero_name}.txt", "w") as fw:
-#         for item in new_data:
-#             fw.write(item + "\n")
+#         for item_f in new_data:
+#             fw.write(item_f + "\n")
 #
 #     os.chdir(main_path)
 #
@@ -197,14 +197,14 @@ import os
 #     """
 #     main_path = os.getcwd()
 #     os.chdir("heroes")
-#     for item in os.listdir():
-#         if item[0:4] == selected_hero[0:4]:
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f[0:4] == selected_hero[0:4]:
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     os.chdir(main_path)
-#     output = [item.strip() for item in content]
-#     for item in output:
-#         print(item)
+#     output = [item_f.strip() for item_f in content]
+#     for item_f in output:
+#         print(item_f)
 #
 #
 # def create_hero():
@@ -226,9 +226,9 @@ import os
 #             hero_class = str.lower(input("Choose one option by writing the class name:"))
 #         with open("hero_class_description", "r") as fr:
 #             content = fr.readlines()
-#         for item in content:
-#             if str.lower(item[0:4]) == str.lower(hero_class[0:4]):
-#                 print(f"\n{item}\n")
+#         for item_f in content:
+#             if str.lower(item_f[0:4]) == str.lower(hero_class[0:4]):
+#                 print(f"\n{item_f}\n")
 #         print("Choose one option:\ngo back(b)\nchoose class(c)\nread abilities(a)")
 #         option = str.lower(input("Your option:"))
 #         while option:
@@ -237,11 +237,11 @@ import os
 #             elif option == "a":
 #                 read_abilities(hero_class)
 #             elif option == "c":
-#                 items_0 = {"helm": "empty", "chest": "empty", "boots": "empty", "weapon": "empty", "sec_weapon": "empty",
+#                 item_fs_0 = {"helm": "empty", "chest": "empty", "boots": "empty", "weapon": "empty", "sec_weapon": "empty",
 #                            "jewel": "empty"}
 #                 matirials_0 = {"wood": '0', "iron": '0', "diamond": '0', "angelic dust": '0'}
 #                 name = get_hero_name()
-#                 write_hero_data(name, hero_class, "0", "500",matirials_0, items_0, [])
+#                 write_hero_data(name, hero_class, "0", "500",matirials_0, item_fs_0, [])
 #                 main_while_break = 1
 #                 break
 #             else:
@@ -272,12 +272,12 @@ import os
 #     output = ""
 #     main_path = os.getcwd()
 #     os.chdir("Your_characters")
-#     for item in os.listdir():
-#         if item == f"{hero_name}.txt":
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f == f"{hero_name}.txt":
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     hero_and_class = {"wizard": "🧙", "shadow": "👤", "vampire": "🧛", "fairy": "🧚", "triton": "🧜", "spirit": "🧞"}
-#     for k, v in hero_and_class.items():
+#     for k, v in hero_and_class.item_fs():
 #         if k == content[0].strip():
 #             output = v
 #     os.chdir(main_path)
@@ -358,12 +358,12 @@ import os
 #                     "The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angeilic Powers\\Your_characters":
 #         os.chdir("Your_characters")
 #         changed_directory = 1
-#     for item in os.listdir():
-#         if item == f"{hero_name}.txt":
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f == f"{hero_name}.txt":
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     hero_and_class = {"wizard": "🧙", "shadow": "👤", "vampire": "🧛", "fairy": "🧚", "triton": "🧜", "spirit": "🧞"}
-#     for k, v in hero_and_class.items():
+#     for k, v in hero_and_class.item_fs():
 #         if k == content[0].strip():
 #             output = v
 #     if changed_directory == 1:
@@ -380,9 +380,9 @@ import os
 #     os.chdir("Your_characters")
 #     while True:
 #         print("\nChoose what hereo do you want to play:")
-#         for i, item in enumerate(os.listdir()):
-#             symbol = get_hero_symbol(item[0:-4])
-#             print(f"{item[0:-4]}{symbol}({i + 1})")
+#         for i, item_f in enumerate(os.listdir()):
+#             symbol = get_hero_symbol(item_f[0:-4])
+#             print(f"{item_f[0:-4]}{symbol}({i + 1})")
 #         option = get_correct_int_input("\nChoose a hero by writing his coresponding number: ")
 #         if 0 < option <= len(os.listdir()):
 #             output = os.listdir()[option - 1]
@@ -405,17 +405,17 @@ import os
 #     :param difficulty:
 #     :return:
 #     """
-#     red_item = 15 * difficulty
-#     grren_item = 50 * difficulty
-#     yellow_item = 500 * difficulty
-#     blue_item = 1300 * difficulty
-#     black_chance = 10000 - blue_item - yellow_item - grren_item - red_item
-#     list_chances = ["\033[1;30;40m"] * (black_chance) + ["\033[1;30;44m"] * (blue_item) + ["\033[1;30;43m"] * \
-#                    (yellow_item) + ["\033[1;30;42m"] * (grren_item) + ["\033[1;30;41m"] * (red_item)
+#     red_item_f = 15 * difficulty
+#     grren_item_f = 50 * difficulty
+#     yellow_item_f = 500 * difficulty
+#     blue_item_f = 1300 * difficulty
+#     black_chance = 10000 - blue_item_f - yellow_item_f - grren_item_f - red_item_f
+#     list_chances = ["\033[1;30;40m"] * (black_chance) + ["\033[1;30;44m"] * (blue_item_f) + ["\033[1;30;43m"] * \
+#                    (yellow_item_f) + ["\033[1;30;42m"] * (grren_item_f) + ["\033[1;30;41m"] * (red_item_f)
 #     return random.choice(list_chances)
 #
 # for _ in range(1000):
-#     print(f"{get_random_rarity(5)}item")
+#     print(f"{get_random_rarity(5)}item_f")
 
 
 # def random_secondary_stat(rarity):
@@ -588,8 +588,8 @@ import os
 #     print(f"\033[2;32;40m{room[0]}\033[0;0m")
 #     color, obstacles = get_color_biome(biome)
 #     margins = '\033[2;32;40m  '
-#     for item in room[1:-1]:
-#         print(f"{margins}{color}{item}{margins}\033[0;0m")
+#     for item_f in room[1:-1]:
+#         print(f"{margins}{color}{item_f}{margins}\033[0;0m")
 #     print(f"\033[2;32;40m{room[-1]}\033[0;0m")
 #
 #
@@ -614,15 +614,15 @@ import os
 #     count_row_positions = 0
 #     count_row_positions_actions = 0
 #
-#     for i, item in enumerate(room):
+#     for i, item_f in enumerate(room):
 #         if i == row:
 #             if column == 0:
-#                 if item[0] == " ":
-#                     output.append(f"{hero}{item[2::]}")
+#                 if item_f[0] == " ":
+#                     output.append(f"{hero}{item_f[2::]}")
 #                 else:
-#                     output.append(f"{hero}{item[1::]}")
+#                     output.append(f"{hero}{item_f[1::]}")
 #             else:
-#                 for ch in item:
+#                 for ch in item_f:
 #
 #                     if ch == " ":
 #                         count_row_positions += 1
@@ -634,9 +634,9 @@ import os
 #                     if count_row_positions_actions >= column * 2:
 #                         break
 #
-#                 output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + 1::]}")
+#                 output.append(f"{item_f[0:count_row_positions]}{hero}{item_f[count_row_positions + 1::]}")
 #         else:
-#             output.append(item)
+#             output.append(item_f)
 #     return output
 #
 #
@@ -705,17 +705,17 @@ import os
 #
 #     main_path = os.getcwd()
 #     new_data = [hero_class, level, gold]
-#     for k, v in materials.items():
+#     for k, v in materials.item_fs():
 #         new_data.append(f"{v}")
-#     for k_1, v_1 in gear.items():
+#     for k_1, v_1 in gear.item_fs():
 #         new_data.append(f"{v_1}")
-#     for item in inventory:
-#         new_data.append(item)
+#     for item_f in inventory:
+#         new_data.append(item_f)
 #     os.chdir("Your_characters")
 #
 #     with open(f"{hero_name}.txt", "w") as fw:
-#         for item in new_data:
-#             fw.write(item + "\n")
+#         for item_f in new_data:
+#             fw.write(item_f + "\n")
 #
 #     os.chdir(main_path)
 #
@@ -728,14 +728,14 @@ import os
 #     """
 #     main_path = os.getcwd()
 #     os.chdir("heroes")
-#     for item in os.listdir():
-#         if item[0:4] == selected_hero[0:4]:
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f[0:4] == selected_hero[0:4]:
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     os.chdir(main_path)
-#     output = [item.strip() for item in content]
-#     for item in output:
-#         print(item)
+#     output = [item_f.strip() for item_f in content]
+#     for item_f in output:
+#         print(item_f)
 #
 #
 # def create_hero():
@@ -757,9 +757,9 @@ import os
 #             hero_class = str.lower(input("Choose one option by writing the class name:"))
 #         with open("hero_class_description", "r") as fr:
 #             content = fr.readlines()
-#         for item in content:
-#             if str.lower(item[0:4]) == str.lower(hero_class[0:4]):
-#                 print(f"\n{item}\n")
+#         for item_f in content:
+#             if str.lower(item_f[0:4]) == str.lower(hero_class[0:4]):
+#                 print(f"\n{item_f}\n")
 #         print("Choose one option:\ngo back(b)\nchoose class(c)\nread abilities(a)")
 #         option = str.lower(input("Your option:"))
 #         while option:
@@ -768,11 +768,11 @@ import os
 #             elif option == "a":
 #                 read_abilities(hero_class)
 #             elif option == "c":
-#                 items_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
+#                 item_fs_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
 #                            "sec_weapon": "empty_", "jewel": "empty_"}
 #                 materials_0 = {"wood": '0', "iron": '0', "diamond": '0', "angelic dust": '0'}
 #                 name = get_hero_name()
-#                 write_hero_data(name, hero_class, "0", "500", materials_0, items_0, ["empty_"] * 18)
+#                 write_hero_data(name, hero_class, "0", "500", materials_0, item_fs_0, ["empty_"] * 18)
 #                 main_while_break = 1
 #                 break
 #             else:
@@ -804,12 +804,12 @@ import os
 #                     "The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angelic Powers\\Your_characters":
 #         os.chdir("Your_characters")
 #         changed_directory = 1
-#     for item in os.listdir():
-#         if item == f"{hero_name}.txt":
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f == f"{hero_name}.txt":
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     hero_and_class = {"wizard": "🧙", "shadow": "👤", "vampire": "🧛", "fairy": "🧚", "triton": "🧜", "spirit": "🧞"}
-#     for k, v in hero_and_class.items():
+#     for k, v in hero_and_class.item_fs():
 #         if k == content[0].strip():
 #             output = v
 #     if changed_directory == 1:
@@ -817,20 +817,20 @@ import os
 #     return output
 #
 #
-# def get_item_symbol(item):
+# def get_item_f_symbol(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
 #
 #     output = ""
-#     dict_items = {"crown": "👑", "wand": "🎆",
+#     dict_item_fs = {"crown": "👑", "wand": "🎆",
 #                   "the_eye": "🧿", "robe": "👘",
 #                   "talisman": "🎐", "boots": "👢"}
 #
-#     for k, v in dict_items.items():
-#         if item == k:
+#     for k, v in dict_item_fs.item_fs():
+#         if item_f == k:
 #             output = v
 #             break
 #     return output
@@ -845,9 +845,9 @@ import os
 #     os.chdir("Your_characters")
 #     while True:
 #         print("\nChoose what hero do you want to play:")
-#         for i, item in enumerate(os.listdir()):
-#             symbol = get_hero_symbol(item[0:-4])
-#             print(f"{item[0:-4]}{symbol}({i + 1})")
+#         for i, item_f in enumerate(os.listdir()):
+#             symbol = get_hero_symbol(item_f[0:-4])
+#             print(f"{item_f[0:-4]}{symbol}({i + 1})")
 #         option = get_correct_int_input("\nChoose a hero by writing his corresponding number: ")
 #         if 0 < option <= len(os.listdir()):
 #             output = os.listdir()[option - 1]
@@ -887,7 +887,7 @@ import os
 #     with open(file, "r") as fr:
 #         content = fr.readlines()
 #     os.chdir(main_path)
-#     inventory = [item.strip() for item in content]
+#     inventory = [item_f.strip() for item_f in content]
 #     return inventory
 #
 #
@@ -897,13 +897,13 @@ import os
 #     :param difficulty:
 #     :return:
 #     """
-#     red_item = 10 * difficulty
-#     grren_item = 50 * difficulty
-#     yellow_item = 500 * difficulty
-#     blue_item = 1300 * difficulty
-#     black_chance = 10000 - blue_item - yellow_item - grren_item - red_item
-#     list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item) + ["rare"] * \
-#                    (yellow_item) + ["legendary"] * (grren_item) + ["angelic"] * (red_item)
+#     red_item_f = 10 * difficulty
+#     grren_item_f = 50 * difficulty
+#     yellow_item_f = 500 * difficulty
+#     blue_item_f = 1300 * difficulty
+#     black_chance = 10000 - blue_item_f - yellow_item_f - grren_item_f - red_item_f
+#     list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item_f) + ["rare"] * \
+#                    (yellow_item_f) + ["legendary"] * (grren_item_f) + ["angelic"] * (red_item_f)
 #     return random.choice(list_chances)
 #
 #
@@ -932,29 +932,29 @@ import os
 #     print(f"\033[4m{' ' * 30}\033[0;0m ")
 #     print(f"|\033[95m{file[0:-4]}  lv: {inventory[1]}\033[0;0m "
 #           f"{' ' * (21 - len(file[0:-4]) - len(str(inventory[1])))}|")
-#     print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_colored_symbol(inventory[12])}\033[0;0m "
-#           f"\033[1;30;47m{item_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
+#     print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_f_colored_symbol(inventory[12])}\033[0;0m "
+#           f"\033[1;30;47m{item_f_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
 #     print(f"|\033[32mwood: {inventory[3]}\033[0;0m{' ' * (22 - len(str(inventory[3])))}|")
 #     print(f"|\033[38msilver: {inventory[4]}\033[0;0m"
-#           f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_colored_symbol(inventory[10])}\033[0;0m "
-#           f"\033[1;30;47m{item_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_colored_symbol(inventory[11])}\033[0;0m"
+#           f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_f_colored_symbol(inventory[10])}\033[0;0m "
+#           f"\033[1;30;47m{item_f_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_f_colored_symbol(inventory[11])}\033[0;0m"
 #           f"{' ' * 3}|")
 #     print(f"|\033[34mdiamond: {inventory[5]}\033[0;0m{' ' * (19 - len(str(inventory[5])))}|")
 #     print(f"|\033[31mangelic dust: {inventory[6]}\033[0;0m{' ' * (5 - len(str(inventory[6])))}\033[1;30;47m"
-#           f"{item_colored_symbol(inventory[9])}\033[0;0m"
+#           f"{item_f_colored_symbol(inventory[9])}\033[0;0m"
 #           f"{' ' * 7}|")
 #     print(f"|\033[33mgold: {inventory[2]}\033[0;0m{' ' * (22 - len(str(inventory[2])))}|")
 #     row_1 = ""
 #     row_2 = ""
 #     row_3 = ""
 #     row_counter = 1
-#     for item in inventory[13::]:
+#     for item_f in inventory[13::]:
 #         if row_counter <= 6:
-#             row_1 += f"{item_colored_symbol(item)}  "
+#             row_1 += f"{item_f_colored_symbol(item_f)}  "
 #         elif row_counter <= 12:
-#             row_2 += f"{item_colored_symbol(item)}  "
+#             row_2 += f"{item_f_colored_symbol(item_f)}  "
 #         elif row_counter <= 18:
-#             row_3 += f"{item_colored_symbol(item)}  "
+#             row_3 += f"{item_f_colored_symbol(item_f)}  "
 #         row_counter += 1
 #     if row_counter < 7:
 #         row_1 += "\033[1;30;47m  \033[0;0m  " * (7 - row_counter)
@@ -1015,56 +1015,56 @@ import os
 #         return f"{stat_name}: {round(200 * stat_factor[stat_name], 1)}"
 #
 #
-# def create_item(item_name, difficulty):
+# def create_item_f(item_f_name, difficulty):
 #     """
 #
-#     :param item_name:
+#     :param item_f_name:
 #     :param difficulty:
 #     :return:
 #     """
 #     rarity = get_random_rarity(difficulty)
-#     return f"{item_name} {rarity} {random_primary_stat(rarity)}" \
+#     return f"{item_f_name} {rarity} {random_primary_stat(rarity)}" \
 #            f" {random_secondary_stat(rarity)} {random_secondary_stat(rarity)} {random_secondary_stat(rarity)}"
 #
 #
-# def print_item(item):
+# def print_item_f(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
-#     item_l = item.split()
+#     item_f_l = item_f.split()
 #
-#     item_color, text_color = get_rarity_color(item_l[1])
+#     item_f_color, text_color = get_rarity_color(item_f_l[1])
 #     print(f" {text_color}{'_' * 16}\033[0;0m ")
 #     print(
-#         f"{text_color}|\033[0;0m{item_l[0]}{' ' * (15 - len(item_l[0]) - len(item_l[1]))}{text_color}{item_l[1]} |")
+#         f"{text_color}|\033[0;0m{item_f_l[0]}{' ' * (15 - len(item_f_l[0]) - len(item_f_l[1]))}{text_color}{item_f_l[1]} |")
 #     print(
-#         f"{text_color}|\033[0;0m {item_color}{get_item_symbol(item_l[0])}\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
+#         f"{text_color}|\033[0;0m {item_f_color}{get_item_f_symbol(item_f_l[0])}\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
 #     print(f"{text_color}|{' ' * 16}|\033[0;0m")
 #     print(
-#         f"{text_color}|\033[0;0m {item_l[2]} {item_l[3]}\033[0;0m{' ' * (14 - len(item_l[2]) - len(item_l[3]))}{text_color}|\033[0;0m")
+#         f"{text_color}|\033[0;0m {item_f_l[2]} {item_f_l[3]}\033[0;0m{' ' * (14 - len(item_f_l[2]) - len(item_f_l[3]))}{text_color}|\033[0;0m")
 #     print(
-#         f"{text_color}|\033[0;0m {item_l[4]} {item_l[5]}\033[0;0m{' ' * (14 - len(item_l[4]) - len(item_l[5]))}{text_color}|\033[0;0m")
+#         f"{text_color}|\033[0;0m {item_f_l[4]} {item_f_l[5]}\033[0;0m{' ' * (14 - len(item_f_l[4]) - len(item_f_l[5]))}{text_color}|\033[0;0m")
 #     print(
-#         f"{text_color}|\033[0;0m {item_l[6]} {item_l[7]}\033[0;0m{' ' * (14 - len(item_l[6]) - len(item_l[7]))}{text_color}|\033[0;0m")
+#         f"{text_color}|\033[0;0m {item_f_l[6]} {item_f_l[7]}\033[0;0m{' ' * (14 - len(item_f_l[6]) - len(item_f_l[7]))}{text_color}|\033[0;0m")
 #     print(
-#         f"{text_color}|\033[0;0m {item_l[8]} {item_l[9]}\033[0;0m{' ' * (14 - len(item_l[8]) - len(item_l[9]))}{text_color}|\033[0;0m")
+#         f"{text_color}|\033[0;0m {item_f_l[8]} {item_f_l[9]}\033[0;0m{' ' * (14 - len(item_f_l[8]) - len(item_f_l[9]))}{text_color}|\033[0;0m")
 #     print(f"{text_color}|{'_' * 16}|\033[0;0m")
 #
 #
-# def item_colored_symbol(item):
+# def item_f_colored_symbol(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
-#     if item == "empty":
+#     if item_f == "empty":
 #         return "\033[1;30;47m⬛\033[0;0m"
 #     else:
-#         item_l = item.split()
-#         item_color, text_color = get_rarity_color(item_l[1])
-#         return f"{item_color}{get_item_symbol(item_l[0])}\033[0;0m"
+#         item_f_l = item_f.split()
+#         item_f_color, text_color = get_rarity_color(item_f_l[1])
+#         return f"{item_f_color}{get_item_f_symbol(item_f_l[0])}\033[0;0m"
 #
 #
 # def navigate_inventory(file):
@@ -1079,14 +1079,14 @@ import os
 #     option = input("choose one option by writing its corresponding value:")
 #     while True:
 #         if option == "s":
-#             print("Choose item:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
+#             print("Choose item_f:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
 #                   "jewel(5)\ninventory(coresponding number)")
 #             option_s = get_correct_int_input("choose one option by writing its corresponding value:")
 #             if option_s <= 21:
 #                 if inventory[option_s] == "empty":
-#                     print("You don't have an item in that slot")
+#                     print("You don't have an item_f in that slot")
 #                 else:
-#                     print_item(inventory[option_s])
+#                     print_item_f(inventory[option_s])
 #             else:
 #                 print("Wrong value entered")
 #         elif option == "b":
@@ -1372,8 +1372,8 @@ import os
 #     print(f"\033[2;32;40m{room[0]}\033[0;0m")
 #     color, obstacles = get_color_biome(biome)
 #     margins = '\033[2;32;40m  '
-#     for item in room[1:-1]:
-#         print(f"{margins}{color}{item}{margins}\033[0;0m")
+#     for item_f in room[1:-1]:
+#         print(f"{margins}{color}{item_f}{margins}\033[0;0m")
 #     print(f"\033[2;32;40m{room[-1]}\033[0;0m")
 #
 #
@@ -1398,15 +1398,15 @@ import os
 #     count_row_positions = 0
 #     count_row_positions_actions = 0
 #
-#     for i, item in enumerate(room):
+#     for i, item_f in enumerate(room):
 #         if i == row:
 #             if column == 0:
-#                 if item[0] == " ":
-#                     output.append(f"{hero}{item[2::]}")
+#                 if item_f[0] == " ":
+#                     output.append(f"{hero}{item_f[2::]}")
 #                 else:
-#                     output.append(f"{hero}{item[1::]}")
+#                     output.append(f"{hero}{item_f[1::]}")
 #             else:
-#                 for ch in item:
+#                 for ch in item_f:
 #
 #                     if ch == " ":
 #                         count_row_positions += 1
@@ -1418,9 +1418,9 @@ import os
 #                     if count_row_positions_actions >= column * 2:
 #                         break
 #
-#                 output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + 1::]}")
+#                 output.append(f"{item_f[0:count_row_positions]}{hero}{item_f[count_row_positions + 1::]}")
 #         else:
-#             output.append(item)
+#             output.append(item_f)
 #     return output
 #
 #
@@ -1489,17 +1489,17 @@ import os
 #
 #     main_path = os.getcwd()
 #     new_data = [hero_class, level, gold]
-#     for k, v in materials.items():
+#     for k, v in materials.item_fs():
 #         new_data.append(f"{v}")
-#     for k_1, v_1 in gear.items():
+#     for k_1, v_1 in gear.item_fs():
 #         new_data.append(f"{v_1}")
-#     for item in inventory:
-#         new_data.append(item)
+#     for item_f in inventory:
+#         new_data.append(item_f)
 #     os.chdir("Your_characters")
 #
 #     with open(f"{hero_name}.txt", "w") as fw:
-#         for item in new_data:
-#             fw.write(item + "\n")
+#         for item_f in new_data:
+#             fw.write(item_f + "\n")
 #
 #     os.chdir(main_path)
 #
@@ -1512,14 +1512,14 @@ import os
 #     """
 #     main_path = os.getcwd()
 #     os.chdir("heroes")
-#     for item in os.listdir():
-#         if item[0:4] == selected_hero[0:4]:
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f[0:4] == selected_hero[0:4]:
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     os.chdir(main_path)
-#     output = [item.strip() for item in content]
-#     for item in output:
-#         print(item)
+#     output = [item_f.strip() for item_f in content]
+#     for item_f in output:
+#         print(item_f)
 #
 #
 # def create_hero():
@@ -1541,9 +1541,9 @@ import os
 #             hero_class = str.lower(input("Choose one option by writing the class name:"))
 #         with open("hero_class_description", "r") as fr:
 #             content = fr.readlines()
-#         for item in content:
-#             if str.lower(item[0:4]) == str.lower(hero_class[0:4]):
-#                 print(f"\n{item}\n")
+#         for item_f in content:
+#             if str.lower(item_f[0:4]) == str.lower(hero_class[0:4]):
+#                 print(f"\n{item_f}\n")
 #         print("Choose one option:\ngo back(b)\nchoose class(c)\nread abilities(a)")
 #         option = str.lower(input("Your option:"))
 #         while option:
@@ -1552,11 +1552,11 @@ import os
 #             elif option == "a":
 #                 read_abilities(hero_class)
 #             elif option == "c":
-#                 items_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
+#                 item_fs_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
 #                            "sec_weapon": "empty_", "jewel": "empty_"}
 #                 materials_0 = {"wood": '0', "iron": '0', "diamond": '0', "angelic dust": '0'}
 #                 name = get_hero_name()
-#                 write_hero_data(name, hero_class, "0", "500", materials_0, items_0, ["empty_"] * 18)
+#                 write_hero_data(name, hero_class, "0", "500", materials_0, item_fs_0, ["empty_"] * 18)
 #                 main_while_break = 1
 #                 break
 #             else:
@@ -1588,12 +1588,12 @@ import os
 #                     "The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angelic Powers\\Your_characters":
 #         os.chdir("Your_characters")
 #         changed_directory = 1
-#     for item in os.listdir():
-#         if item == f"{hero_name}.txt":
-#             with open(item, "r") as fr:
+#     for item_f in os.listdir():
+#         if item_f == f"{hero_name}.txt":
+#             with open(item_f, "r") as fr:
 #                 content = fr.readlines()
 #     hero_and_class = {"wizard": "🧙", "shadow": "👤", "vampire": "🧛", "fairy": "🧚", "triton": "🧜", "spirit": "🧞"}
-#     for k, v in hero_and_class.items():
+#     for k, v in hero_and_class.item_fs():
 #         if k == content[0].strip():
 #             output = v
 #     if changed_directory == 1:
@@ -1601,20 +1601,20 @@ import os
 #     return output
 #
 #
-# def get_item_symbol(item):
+# def get_item_f_symbol(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
 #
 #     output = ""
-#     dict_items = {"crown": "👑", "wand": "🎆",
+#     dict_item_fs = {"crown": "👑", "wand": "🎆",
 #                   "the_eye": "🧿", "robe": "👘",
 #                   "talisman": "🎐", "boots": "👢"}
 #
-#     for k, v in dict_items.items():
-#         if item == k:
+#     for k, v in dict_item_fs.item_fs():
+#         if item_f == k:
 #             output = v
 #             break
 #     return output
@@ -1629,9 +1629,9 @@ import os
 #     os.chdir("Your_characters")
 #     while True:
 #         print("\nChoose what hero do you want to play:")
-#         for i, item in enumerate(os.listdir()):
-#             symbol = get_hero_symbol(item[0:-4])
-#             print(f"{item[0:-4]}{symbol}({i + 1})")
+#         for i, item_f in enumerate(os.listdir()):
+#             symbol = get_hero_symbol(item_f[0:-4])
+#             print(f"{item_f[0:-4]}{symbol}({i + 1})")
 #         option = get_correct_int_input("\nChoose a hero by writing his corresponding number: ")
 #         if 0 < option <= len(os.listdir()):
 #             output = os.listdir()[option - 1]
@@ -1671,7 +1671,7 @@ import os
 #     with open(file, "r") as fr:
 #         content = fr.readlines()
 #     os.chdir(main_path)
-#     inventory = [item.strip() for item in content]
+#     inventory = [item_f.strip() for item_f in content]
 #     return inventory
 #
 #
@@ -1681,13 +1681,13 @@ import os
 #     :param difficulty:
 #     :return:
 #     """
-#     red_item = 10 * difficulty
-#     grren_item = 50 * difficulty
-#     yellow_item = 500 * difficulty
-#     blue_item = 1300 * difficulty
-#     black_chance = 10000 - blue_item - yellow_item - grren_item - red_item
-#     list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item) + ["rare"] * \
-#                    (yellow_item) + ["legendary"] * (grren_item) + ["angelic"] * (red_item)
+#     red_item_f = 10 * difficulty
+#     grren_item_f = 50 * difficulty
+#     yellow_item_f = 500 * difficulty
+#     blue_item_f = 1300 * difficulty
+#     black_chance = 10000 - blue_item_f - yellow_item_f - grren_item_f - red_item_f
+#     list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item_f) + ["rare"] * \
+#                    (yellow_item_f) + ["legendary"] * (grren_item_f) + ["angelic"] * (red_item_f)
 #     return random.choice(list_chances)
 #
 #
@@ -1716,29 +1716,29 @@ import os
 #     print(f"\033[4m{' ' * 30}\033[0;0m ")
 #     print(f"|\033[95m{file[0:-4]}  lv: {inventory[1]}\033[0;0m "
 #           f"{' ' * (21 - len(file[0:-4]) - len(str(inventory[1])))}|")
-#     print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_colored_symbol(inventory[12])}\033[0;0m "
-#           f"\033[1;30;47m{item_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
+#     print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_f_colored_symbol(inventory[12])}\033[0;0m "
+#           f"\033[1;30;47m{item_f_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
 #     print(f"|\033[32mwood: {inventory[3]}\033[0;0m{' ' * (22 - len(str(inventory[3])))}|")
 #     print(f"|\033[38msilver: {inventory[4]}\033[0;0m"
-#           f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_colored_symbol(inventory[10])}\033[0;0m "
-#           f"\033[1;30;47m{item_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_colored_symbol(inventory[11])}\033[0;0m"
+#           f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_f_colored_symbol(inventory[10])}\033[0;0m "
+#           f"\033[1;30;47m{item_f_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_f_colored_symbol(inventory[11])}\033[0;0m"
 #           f"{' ' * 3}|")
 #     print(f"|\033[34mdiamond: {inventory[5]}\033[0;0m{' ' * (19- len(str(inventory[5])))}|")
 #     print(f"|\033[31mangelic dust: {inventory[6]}\033[0;0m{' ' * (5- len(str(inventory[6])))}\033[1;30;47m"
-#           f"{item_colored_symbol(inventory[9])}\033[0;0m"
+#           f"{item_f_colored_symbol(inventory[9])}\033[0;0m"
 #           f"{' ' * 7}|")
 #     print(f"|\033[33mgold: {inventory[2]}\033[0;0m{' ' * (22- len(str(inventory[2])))}|")
 #     row_1 = ""
 #     row_2 = ""
 #     row_3 = ""
 #     row_counter = 1
-#     for item in inventory[13::]:
+#     for item_f in inventory[13::]:
 #         if row_counter <= 6:
-#             row_1 += f"{item_colored_symbol(item)}  "
+#             row_1 += f"{item_f_colored_symbol(item_f)}  "
 #         elif row_counter <= 12:
-#             row_2 += f"{item_colored_symbol(item)}  "
+#             row_2 += f"{item_f_colored_symbol(item_f)}  "
 #         elif row_counter <= 18:
-#             row_3 += f"{item_colored_symbol(item)}  "
+#             row_3 += f"{item_f_colored_symbol(item_f)}  "
 #         row_counter += 1
 #     if row_counter < 7:
 #         row_1 += "\033[1;30;47m  \033[0;0m  " * (7 - row_counter)
@@ -1799,50 +1799,50 @@ import os
 #         return f"{stat_name}: {round(200 * stat_factor[stat_name], 1)}"
 #
 #
-# def create_item(item_name, difficulty):
+# def create_item_f(item_f_name, difficulty):
 #     """
 #
-#     :param item_name:
+#     :param item_f_name:
 #     :param difficulty:
 #     :return:
 #     """
 #     rarity = get_random_rarity(difficulty)
-#     return f"{item_name} {rarity} {random_primary_stat(rarity)}" \
+#     return f"{item_f_name} {rarity} {random_primary_stat(rarity)}" \
 #            f" {random_secondary_stat(rarity)} {random_secondary_stat(rarity)} {random_secondary_stat(rarity)}"\
 #
 #
-# def print_item(item):
+# def print_item_f(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
-#     item_l = item.split()
+#     item_f_l = item_f.split()
 #
-#     item_color, text_color = get_rarity_color(item_l[1])
+#     item_f_color, text_color = get_rarity_color(item_f_l[1])
 #     print(f" {text_color}{'_' * 16}\033[0;0m ")
-#     print(f"{text_color}|\033[0;0m{item_l[0]}{' ' * (15 - len(item_l[0]) - len(item_l[1]))}{text_color}{item_l[1]} |")
-#     print(f"{text_color}|\033[0;0m {item_color}{get_item_symbol(item_l[0]) }\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
+#     print(f"{text_color}|\033[0;0m{item_f_l[0]}{' ' * (15 - len(item_f_l[0]) - len(item_f_l[1]))}{text_color}{item_f_l[1]} |")
+#     print(f"{text_color}|\033[0;0m {item_f_color}{get_item_f_symbol(item_f_l[0]) }\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
 #     print(f"{text_color}|{' ' * 16}|\033[0;0m")
-#     print(f"{text_color}|\033[0;0m {item_l[2]} {item_l[3]}\033[0;0m{' ' * (14 - len(item_l[2]) - len(item_l[3]))}{text_color}|\033[0;0m")
-#     print(f"{text_color}|\033[0;0m {item_l[4]} {item_l[5]}\033[0;0m{' ' * (14 - len(item_l[4]) - len(item_l[5]))}{text_color}|\033[0;0m")
-#     print(f"{text_color}|\033[0;0m {item_l[6]} {item_l[7]}\033[0;0m{' ' * (14 - len(item_l[6]) - len(item_l[7]))}{text_color}|\033[0;0m")
-#     print(f"{text_color}|\033[0;0m {item_l[8]} {item_l[9]}\033[0;0m{' ' * (14 - len(item_l[8]) - len(item_l[9]))}{text_color}|\033[0;0m")
+#     print(f"{text_color}|\033[0;0m {item_f_l[2]} {item_f_l[3]}\033[0;0m{' ' * (14 - len(item_f_l[2]) - len(item_f_l[3]))}{text_color}|\033[0;0m")
+#     print(f"{text_color}|\033[0;0m {item_f_l[4]} {item_f_l[5]}\033[0;0m{' ' * (14 - len(item_f_l[4]) - len(item_f_l[5]))}{text_color}|\033[0;0m")
+#     print(f"{text_color}|\033[0;0m {item_f_l[6]} {item_f_l[7]}\033[0;0m{' ' * (14 - len(item_f_l[6]) - len(item_f_l[7]))}{text_color}|\033[0;0m")
+#     print(f"{text_color}|\033[0;0m {item_f_l[8]} {item_f_l[9]}\033[0;0m{' ' * (14 - len(item_f_l[8]) - len(item_f_l[9]))}{text_color}|\033[0;0m")
 #     print(f"{text_color}|{'_' * 16}|\033[0;0m")
 #
 #
-# def item_colored_symbol(item):
+# def item_f_colored_symbol(item_f):
 #     """
 #
-#     :param item:
+#     :param item_f:
 #     :return:
 #     """
-#     if item == "empty":
+#     if item_f == "empty":
 #         return "\033[1;30;47m⬛\033[0;0m"
 #     else:
-#         item_l = item.split()
-#         item_color, text_color = get_rarity_color(item_l[1])
-#         return f"{item_color}{get_item_symbol(item_l[0])}\033[0;0m"
+#         item_f_l = item_f.split()
+#         item_f_color, text_color = get_rarity_color(item_f_l[1])
+#         return f"{item_f_color}{get_item_f_symbol(item_f_l[0])}\033[0;0m"
 #
 #
 # def navigate_inventory(file):
@@ -1857,14 +1857,14 @@ import os
 #     option = input("choose one option by writing its corresponding value:")
 #     while True:
 #         if option == "s":
-#             print("Choose item:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
+#             print("Choose item_f:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
 #                   "jewel(5)\ninventory(coresponding number)")
 #             option_s = get_correct_int_input("choose one option by writing its corresponding value:")
 #             if option_s <= 21:
 #                 if inventory[option_s] == "empty":
-#                     print("You don't have an item in that slot")
+#                     print("You don't have an item_f in that slot")
 #                 else:
-#                     print_item(inventory[option_s])
+#                     print_item_f(inventory[option_s])
 #             else:
 #                 print("Wrong value entered")
 #         elif option == "b":
@@ -2175,8 +2175,8 @@ def print_room(room: str, biome: str):
     print(f"\033[2;32;40m{room[0]}\033[0;0m")
     color, obstacles = get_color_biome(biome)
     margins = '\033[2;32;40m  '
-    for item in room[1:-1]:
-        print(f"{margins}{color}{item}{margins}\033[0;0m")
+    for item_f in room[1:-1]:
+        print(f"{margins}{color}{item_f}{margins}\033[0;0m")
     print(f"\033[2;32;40m{room[-1]}\033[0;0m")
 
 
@@ -2203,15 +2203,15 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
     last_ch = 0
     space_len = 1
 
-    for i, item in enumerate(room):
+    for i, item_f in enumerate(room):
         if i == row:
             if column == 0:
-                if item[0] == " ":
-                    output.append(f"{hero}{item[2::]}")
+                if item_f[0] == " ":
+                    output.append(f"{hero}{item_f[2::]}")
                 else:
-                    output.append(f"{hero}{item[1::]}")
+                    output.append(f"{hero}{item_f[1::]}")
             else:
-                for i, ch in enumerate(item):
+                for i, ch in enumerate(item_f):
 
                     if ch == " ":
                         count_row_positions += 1
@@ -2224,13 +2224,13 @@ def add_object_on_map(room: list, hero: str, column: int, row: int):
                     if count_row_positions_actions >= column * 2:
                         break
                 try:
-                    if item[i + 1] == " ":
+                    if item_f[i + 1] == " ":
                         space_len = 2
                 except IndexError:
                         space_len = 1
-                output.append(f"{item[0:count_row_positions]}{hero}{item[count_row_positions + space_len::]}")
+                output.append(f"{item_f[0:count_row_positions]}{hero}{item_f[count_row_positions + space_len::]}")
         else:
-            output.append(item)
+            output.append(item_f)
     return output
 
 
@@ -2300,17 +2300,17 @@ def write_hero_data(hero_name: str, hero_class: str, level: str,
 
     main_path = os.getcwd()
     new_data = [hero_class, level, gold]
-    for k, v in materials.items():
+    for k, v in materials.item_fs():
         new_data.append(f"{v}")
-    for k_1, v_1 in gear.items():
+    for k_1, v_1 in gear.item_fs():
         new_data.append(f"{v_1}")
-    for item in inventory:
-        new_data.append(item)
+    for item_f in inventory:
+        new_data.append(item_f)
     os.chdir("Your_characters")
 
     with open(f"{hero_name}.txt", "w") as fw:
-        for item in new_data:
-            fw.write(item + "\n")
+        for item_f in new_data:
+            fw.write(item_f + "\n")
 
     os.chdir(main_path)
 
@@ -2323,14 +2323,14 @@ def read_abilities(selected_hero: str):
     """
     main_path = os.getcwd()
     os.chdir("heroes")
-    for item in os.listdir():
-        if item[0:4] == selected_hero[0:4]:
-            with open(item, "r") as fr:
+    for item_f in os.listdir():
+        if item_f[0:4] == selected_hero[0:4]:
+            with open(item_f, "r") as fr:
                 content = fr.readlines()
     os.chdir(main_path)
-    output = [item.strip() for item in content]
-    for item in output:
-        print(item)
+    output = [item_f.strip() for item_f in content]
+    for item_f in output:
+        print(item_f)
 
 
 def create_hero():
@@ -2352,9 +2352,9 @@ def create_hero():
             hero_class = str.lower(input("Choose one option by writing the class name:"))
         with open("hero_class_description", "r") as fr:
             content = fr.readlines()
-        for item in content:
-            if str.lower(item[0:4]) == str.lower(hero_class[0:4]):
-                print(f"\n{item}\n")
+        for item_f in content:
+            if str.lower(item_f[0:4]) == str.lower(hero_class[0:4]):
+                print(f"\n{item_f}\n")
         print("Choose one option:\ngo back(b)\nchoose class(c)\nread abilities(a)")
         option = str.lower(input("Your option:"))
         while option:
@@ -2363,11 +2363,11 @@ def create_hero():
             elif option == "a":
                 read_abilities(hero_class)
             elif option == "c":
-                items_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
+                item_fs_0 = {"helm": "empty_", "chest": "empty_", "boots": "empty_", "weapon": "empty_",
                            "sec_weapon": "empty_", "jewel": "empty_"}
                 materials_0 = {"wood": '0', "iron": '0', "diamond": '0', "angelic dust": '0'}
                 name = get_hero_name()
-                write_hero_data(name, hero_class, "0", "500", materials_0, items_0, ["empty_"] * 18)
+                write_hero_data(name, hero_class, "0", "500", materials_0, item_fs_0, ["empty_"] * 18)
                 main_while_break = 1
                 break
             else:
@@ -2399,12 +2399,12 @@ def get_hero_symbol(hero_name):
                     "The-Big-Book-of-Small-Python-Projects-solved-by-ramuica-\\Angelic Powers\\Your_characters":
         os.chdir("Your_characters")
         changed_directory = 1
-    for item in os.listdir():
-        if item == f"{hero_name}.txt":
-            with open(item, "r") as fr:
+    for item_f in os.listdir():
+        if item_f == f"{hero_name}.txt":
+            with open(item_f, "r") as fr:
                 content = fr.readlines()
     hero_and_class = {"wizard": "🧙", "shadow": "👤", "vampire": "🧛", "fairy": "🧚", "triton": "🧜", "spirit": "🧞"}
-    for k, v in hero_and_class.items():
+    for k, v in hero_and_class.item_fs():
         if k == content[0].strip():
             output = v
     if changed_directory == 1:
@@ -2412,20 +2412,20 @@ def get_hero_symbol(hero_name):
     return output
 
 
-def get_item_symbol(item):
+def get_item_f_symbol(item_f):
     """
 
-    :param item:
+    :param item_f:
     :return:
     """
 
     output = ""
-    dict_items = {"crown": "👑", "wand": "🎆",
+    dict_item_fs = {"crown": "👑", "wand": "🎆",
                   "the_eye": "🧿", "robe": "👘",
                   "talisman": "🎐", "boots": "👢"}
 
-    for k, v in dict_items.items():
-        if item == k:
+    for k, v in dict_item_fs.item_fs():
+        if item_f == k:
             output = v
             break
     return output
@@ -2440,9 +2440,9 @@ def play_existing_hero():
     os.chdir("Your_characters")
     while True:
         print("\nChoose what hero do you want to play:")
-        for i, item in enumerate(os.listdir()):
-            symbol = get_hero_symbol(item[0:-4])
-            print(f"{item[0:-4]}{symbol}({i + 1})")
+        for i, item_f in enumerate(os.listdir()):
+            symbol = get_hero_symbol(item_f[0:-4])
+            print(f"{item_f[0:-4]}{symbol}({i + 1})")
         option = get_correct_int_input("\nChoose a hero by writing his corresponding number: ")
         if 0 < option <= len(os.listdir()):
             output = os.listdir()[option - 1]
@@ -2482,7 +2482,7 @@ def read_inventory(file):
     with open(file, "r") as fr:
         content = fr.readlines()
     os.chdir(main_path)
-    inventory = [item.strip() for item in content]
+    inventory = [item_f.strip() for item_f in content]
     return inventory
 
 
@@ -2492,13 +2492,13 @@ def get_random_rarity(difficulty):
     :param difficulty:
     :return:
     """
-    red_item = 10 * difficulty
-    grren_item = 50 * difficulty
-    yellow_item = 500 * difficulty
-    blue_item = 1300 * difficulty
-    black_chance = 10000 - blue_item - yellow_item - grren_item - red_item
-    list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item) + ["rare"] * \
-                   (yellow_item) + ["legendary"] * (grren_item) + ["angelic"] * (red_item)
+    red_item_f = 10 * difficulty
+    grren_item_f = 50 * difficulty
+    yellow_item_f = 500 * difficulty
+    blue_item_f = 1300 * difficulty
+    black_chance = 10000 - blue_item_f - yellow_item_f - grren_item_f - red_item_f
+    list_chances = ["common"] * (black_chance) + ["normal"] * (blue_item_f) + ["rare"] * \
+                   (yellow_item_f) + ["legendary"] * (grren_item_f) + ["angelic"] * (red_item_f)
     return random.choice(list_chances)
 
 
@@ -2527,29 +2527,29 @@ def print_inventory(file):
     print(f"\033[4m{' ' * 30}\033[0;0m ")
     print(f"|\033[95m{file[0:-4]}  lv: {inventory[1]}\033[0;0m "
           f"{' ' * (21 - len(file[0:-4]) - len(str(inventory[1])))}|")
-    print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_colored_symbol(inventory[12])}\033[0;0m "
-          f"\033[1;30;47m{item_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
+    print(f"|  \033[1;30;45m|{symbol}|\033[2;37;0m{' ' * 10}\033[1;30;47m{item_f_colored_symbol(inventory[12])}\033[0;0m "
+          f"\033[1;30;47m{item_f_colored_symbol(inventory[7])}\033[2;37;0m{' ' * 7}|")
     print(f"|\033[32mwood: {inventory[3]}\033[0;0m{' ' * (22 - len(str(inventory[3])))}|")
     print(f"|\033[38msilver: {inventory[4]}\033[0;0m"
-          f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_colored_symbol(inventory[10])}\033[0;0m "
-          f"\033[1;30;47m{item_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_colored_symbol(inventory[11])}\033[0;0m"
+          f"{' ' * (8 - len(str(inventory[4])))}\033[1;30;47m{item_f_colored_symbol(inventory[10])}\033[0;0m "
+          f"\033[1;30;47m{item_f_colored_symbol(inventory[8])}\033[0;0m \033[1;30;47m{item_f_colored_symbol(inventory[11])}\033[0;0m"
           f"{' ' * 3}|")
     print(f"|\033[34mdiamond: {inventory[5]}\033[0;0m{' ' * (19- len(str(inventory[5])))}|")
     print(f"|\033[31mangelic dust: {inventory[6]}\033[0;0m{' ' * (5- len(str(inventory[6])))}\033[1;30;47m"
-          f"{item_colored_symbol(inventory[9])}\033[0;0m"
+          f"{item_f_colored_symbol(inventory[9])}\033[0;0m"
           f"{' ' * 7}|")
     print(f"|\033[33mgold: {inventory[2]}\033[0;0m{' ' * (22- len(str(inventory[2])))}|")
     row_1 = ""
     row_2 = ""
     row_3 = ""
     row_counter = 1
-    for item in inventory[13::]:
+    for item_f in inventory[13::]:
         if row_counter <= 6:
-            row_1 += f"{item_colored_symbol(item)}  "
+            row_1 += f"{item_f_colored_symbol(item_f)}  "
         elif row_counter <= 12:
-            row_2 += f"{item_colored_symbol(item)}  "
+            row_2 += f"{item_f_colored_symbol(item_f)}  "
         elif row_counter <= 18:
-            row_3 += f"{item_colored_symbol(item)}  "
+            row_3 += f"{item_f_colored_symbol(item_f)}  "
         row_counter += 1
     if row_counter < 7:
         row_1 += "\033[1;30;47m  \033[0;0m  " * (7 - row_counter)
@@ -2610,50 +2610,50 @@ def random_secondary_stat(rarity):
         return f"{stat_name}: {round(200 * stat_factor[stat_name], 1)}"
 
 
-def create_item(item_name, difficulty):
+def create_item_f(item_f_name, difficulty):
     """
 
-    :param item_name:
+    :param item_f_name:
     :param difficulty:
     :return:
     """
     rarity = get_random_rarity(difficulty)
-    return f"{item_name}-{rarity}-{random_primary_stat(rarity)}-" \
+    return f"{item_f_name}-{rarity}-{random_primary_stat(rarity)}-" \
            f"{random_secondary_stat(rarity)} {random_secondary_stat(rarity)}-{random_secondary_stat(rarity)}"\
 
 
-def print_item(item):
+def print_item_f(item_f):
     """
 
-    :param item:
+    :param item_f:
     :return:
     """
-    item_l = item.split()
+    item_f_l = item_f.split()
 
-    item_color, text_color = get_rarity_color(item_l[1])
+    item_f_color, text_color = get_rarity_color(item_f_l[1])
     print(f" {text_color}{'_' * 16}\033[0;0m ")
-    print(f"{text_color}|\033[0;0m{item_l[0]}{' ' * (15 - len(item_l[0]) - len(item_l[1]))}{text_color}{item_l[1]} |")
-    print(f"{text_color}|\033[0;0m {item_color}{get_item_symbol(item_l[0]) }\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
+    print(f"{text_color}|\033[0;0m{item_f_l[0]}{' ' * (15 - len(item_f_l[0]) - len(item_f_l[1]))}{text_color}{item_f_l[1]} |")
+    print(f"{text_color}|\033[0;0m {item_f_color}{get_item_f_symbol(item_f_l[0]) }\033[0;0m{' ' * 13}{text_color}|\033[0;0m")
     print(f"{text_color}|{' ' * 16}|\033[0;0m")
-    print(f"{text_color}|\033[0;0m {item_l[2]} {item_l[3]}\033[0;0m{' ' * (14 - len(item_l[2]) - len(item_l[3]))}{text_color}|\033[0;0m")
-    print(f"{text_color}|\033[0;0m {item_l[4]} {item_l[5]}\033[0;0m{' ' * (14 - len(item_l[4]) - len(item_l[5]))}{text_color}|\033[0;0m")
-    print(f"{text_color}|\033[0;0m {item_l[6]} {item_l[7]}\033[0;0m{' ' * (14 - len(item_l[6]) - len(item_l[7]))}{text_color}|\033[0;0m")
-    print(f"{text_color}|\033[0;0m {item_l[8]} {item_l[9]}\033[0;0m{' ' * (14 - len(item_l[8]) - len(item_l[9]))}{text_color}|\033[0;0m")
+    print(f"{text_color}|\033[0;0m {item_f_l[2]} {item_f_l[3]}\033[0;0m{' ' * (14 - len(item_f_l[2]) - len(item_f_l[3]))}{text_color}|\033[0;0m")
+    print(f"{text_color}|\033[0;0m {item_f_l[4]} {item_f_l[5]}\033[0;0m{' ' * (14 - len(item_f_l[4]) - len(item_f_l[5]))}{text_color}|\033[0;0m")
+    print(f"{text_color}|\033[0;0m {item_f_l[6]} {item_f_l[7]}\033[0;0m{' ' * (14 - len(item_f_l[6]) - len(item_f_l[7]))}{text_color}|\033[0;0m")
+    print(f"{text_color}|\033[0;0m {item_f_l[8]} {item_f_l[9]}\033[0;0m{' ' * (14 - len(item_f_l[8]) - len(item_f_l[9]))}{text_color}|\033[0;0m")
     print(f"{text_color}|{'_' * 16}|\033[0;0m")
 
 
-def item_colored_symbol(item):
+def item_f_colored_symbol(item_f):
     """
 
-    :param item:
+    :param item_f:
     :return:
     """
-    if item == "empty":
+    if item_f == "empty":
         return "\033[1;30;47m⬛\033[0;0m"
     else:
-        item_l = item.split()
-        item_color, text_color = get_rarity_color(item_l[1])
-        return f"{item_color}{get_item_symbol(item_l[0])}\033[0;0m"
+        item_f_l = item_f.split()
+        item_f_color, text_color = get_rarity_color(item_f_l[1])
+        return f"{item_f_color}{get_item_f_symbol(item_f_l[0])}\033[0;0m"
 
 
 def navigate_inventory(file):
@@ -2668,14 +2668,14 @@ def navigate_inventory(file):
     option = input("choose one option by writing its corresponding value:")
     while True:
         if option == "s":
-            print("Choose item:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
+            print("Choose item_f:\nhead(0)\nchest(1)\nfeet(2)\nmain hand(3)\n2nd hand(4)\n"
                   "jewel(5)\ninventory(coresponding number)")
             option_s = get_correct_int_input("choose one option by writing its corresponding value:")
             if option_s <= 21:
                 if inventory[option_s] == "empty":
-                    print("You don't have an item in that slot")
+                    print("You don't have an item_f in that slot")
                 else:
-                    print_item(inventory[option_s])
+                    print_item_f(inventory[option_s])
             else:
                 print("Wrong value entered")
         elif option == "b":
@@ -2843,9 +2843,9 @@ class Map:
         self.room_m = room_m
         self.list_of_enemies = list_of_enemies
 
-        for item in self.list_of_enemies:
-            if item[-1] == "alive":
-                room_e = add_object_on_map(room_m, item[1], item[0][0], item[0][1])
+        for item_f in self.list_of_enemies:
+            if item_f[-1] == "alive":
+                room_e = add_object_on_map(room_m, item_f[1], item_f[0][0], item_f[0][1])
 
         self.room = room_e
 
@@ -2867,14 +2867,14 @@ def generate_arena(player, enemies):
     arena = [f"{' '* 54}"] * 15
     column_row_l = [[14, 12], [10, 11], [18, 11], [6, 10], [22, 10], [2, 9], [26, 9]]
     effects_coordinates = [[0, 1], [-1, 1], [1, 1], [0, 2], [-1, 2], [1, 2]]
-    for i, item in enumerate(player):
-        for i_1, effect in enumerate(item[1::]):
+    for i, item_f in enumerate(player):
+        for i_1, effect in enumerate(item_f[1::]):
             arena = add_object_on_map(arena, effect, column_row_l[i][0] + effects_coordinates[i_1][0],
                                       column_row_l[i][1] - effects_coordinates[i_1][1])
 
         arena = add_object_on_map(arena, player[i][0], column_row_l[i][0], column_row_l[i][1])
-    for i, item in enumerate(enemies):
-        for i_1, effect in enumerate(item[1::]):
+    for i, item_f in enumerate(enemies):
+        for i_1, effect in enumerate(item_f[1::]):
             arena = add_object_on_map(arena, effect, column_row_l[i][0] + effects_coordinates[i_1][0],
                                       column_row_l[i][1] - effects_coordinates[i_1][1] - 6)
         arena = add_object_on_map(arena, enemies[i][0], column_row_l[i][0], column_row_l[i][1] - 6)
@@ -2888,9 +2888,9 @@ def ordonate_hp(entities):
     life_str = ""
     for i in range(len(entities)):
 
-        life_row[coordinates[i]] = str(entities[i].life[0]).zfill(6)
-    for item in life_row:
-        life_str += item
+        life_row[coordinates[i]] = str(int(entities[i].life[0])).zfill(6)
+    for item_f in life_row:
+        life_str += item_f
     return life_str
 
 
@@ -2898,9 +2898,9 @@ def printe_arena(arena, ally_l, enemy_l):
     margin = f"\033[48;5;16m  \033[0;0m"
     print(f"\033[38;5;34m{ordonate_hp(enemy_l)}\033[0;0m")
     print(f"{margin}\033[48;5;16m{arena[0]}\033[0;0m{margin}")
-    for item in arena[1:-1]:
+    for item_f in arena[1:-1]:
         line = ""
-        for ch in item:
+        for ch in item_f:
             if ch != " ":
                 line += f"\033[48;5;246m{ch}\033[48;5;236m"
             else:
@@ -2914,18 +2914,18 @@ def printe_arena(arena, ally_l, enemy_l):
 
 def get_effect_symbol(effect):
     effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸", "blind": "✨", "stun": "💫", "sleep": "💤", "taunt": "💢", "charm": "💞"}
-    for k, v in effects.items():
+    for k, v in effects.item_fs():
         if effect == k:
             return v
 
-def stats_from_items(inventory):
+def stats_from_item_fs(inventory):
 
     added_stats = {"primary": 0, "armor": 0, "hp": 0, "crit": 0, "crit_dmg": 0, "speed": 0, "mr": 0,
                    "dodge": 0, "cc_immun": 0, "mana": 0}
-    for item in inventory[7:13]:
-        item_stats = item.split("-")
-        print(item_stats)
-        for stat in item_stats[2::]:
+    for item_f in inventory[7:13]:
+        item_f_stats = item_f.split("-")
+        print(item_f_stats)
+        for stat in item_f_stats[2::]:
             added_stats[stat[0:stat.find(":")]] += float(stat[stat.rfind(" ") + 1::])
     return added_stats
 
@@ -2964,19 +2964,23 @@ class Combatant_izoteric:
 
     def round_end_effect(self):
         output = {}
-        for k, v in self.effects.items():
+        if 'burn' in self.effects:
+            Combatant_izoteric.deal_damage_heal(self, -self.damage)
+        if 'bleed' in self.effects:
+            Combatant_izoteric.deal_damage_heal(self, -(self.life[0] * 0.1))
+        for k, v in self.effects.item_fs():
             if v > 0:
                 output[k] = v - 1
         self.effects = output
 
     def printable_symbols(self):
-        return [self.symbol] + [get_effect_symbol(k) for k, v in self.effects.items()]
+        return [self.symbol] + [get_effect_symbol(k) for k, v in self.effects.item_fs()]
 
     def crit_mechanic(self):
         if self.crit >= 100:
             return self.damage + (self.damage * (self.crit_dmg + self.crit - 100) / 100)
         else:
-            x = random.choice([1] * self.crit + [0] * (100 - self.crit))
+            x = random.choice([1] * int(self.crit) + [0] * (100 - int(self.crit)))
             if x == 1:
                 return self.damage + (self.damage * self.crit_dmg / 100)
             else:
@@ -2999,7 +3003,8 @@ class Combatant_izoteric:
                     output.append([Combatant_izoteric.crit_mechanic(self), [f'{random.choice(["freeze"] * 70 + ["none"] * 30)}2']])
             else:
                 print("not enough mana")
-                return ["error"] * 3
+                return 'error'
+
         return output, "magical", "damage"
 
     def second_ability(self, hero_class, enemies_l):
@@ -3013,7 +3018,7 @@ class Combatant_izoteric:
                     attack_eneies = [0]
                 for i in range(len(enemies_l)):
                     if i in attack_eneies:
-                        if "freeze" in [item[0:-1] for item in enemies_l[i]]:
+                        if "freeze" in [item_f[0:-1] for item_f in enemies_l[i]]:
                             output.append([Combatant_izoteric.crit_mechanic(self) * 4, ["burn3"]])
                         else:
                             output.append([Combatant_izoteric.crit_mechanic(self) * 2, ["burn3"]])
@@ -3021,7 +3026,8 @@ class Combatant_izoteric:
                         output.append([0, []])
             else:
                 print("not enough mana")
-                return ["error"] * 3
+                return 'error'
+
         return output, "magical", "damage"
 
     def third_ability(self, hero_class, enemies_effects_l):
@@ -3029,9 +3035,9 @@ class Combatant_izoteric:
         if hero_class == "wizard":
             if self.mana[0] == self.mana[1]:
                 Combatant_izoteric.get_lose_mana(self, self.mana[1])
-                for item in enemies_effects_l:
+                for item_f in enemies_effects_l:
                     new_effects = []
-                    for effect in item:
+                    for effect in item_f:
                         if effect[0:-1] == "freeze":
                             new_effects.append("freeze2")
                         elif effect[0:-1] == "burn":
@@ -3042,7 +3048,8 @@ class Combatant_izoteric:
                 return output, "magical", "round"
             else:
                 print("Not enough mana")
-                return ["error"] * 3
+                return 'error'
+
 
     def forth_ability(self, hero_class, enemies_l):
         output = []
@@ -3053,36 +3060,59 @@ class Combatant_izoteric:
 
                 for i in range(len(enemies_l)):
                     if i == attack_enemy:
-                        if "burn" in [item[0:-1] for item in enemies_l[i]]:
+                        if "burn" in [item_f[0:-1] for item_f in enemies_l[i]]:
                             Combatant_izoteric.deal_damage_heal(self, int(self.damage * 15 * 0.1))
                         output.append([Combatant_izoteric.crit_mechanic(self) * 15, ["blind2"]])
                     else:
                         output.append([0, []])
             else:
                 print("not enough mana")
-                return ["error"] * 3
+                return 'error'
+
         return output, "pure", "damage"
 
     def use_ability(self, hero_class, enemiy_l):
         option = input("choose ability")
-        if "blind" in self.effects:
-            print("You are \033[38;5;196m blinded\033[0;0m, you can't use basic attack")
-        if "stun" in self.effects or "freeze" in self.effects:
-            return "dissabled"
-        else:
-            while True:
-                if option == "a" and "blind" not in self.effects:
-                    return Combatant_izoteric.basic_attack_class(self, hero_class, enemiy_l)
-                elif option == "q":
-                    return Combatant_izoteric.first_ability(self, hero_class, enemiy_l)
-                elif option == "w":
-                    return Combatant_izoteric.second_ability(self, hero_class, enemiy_l)
-                elif option == "e":
-                    return Combatant_izoteric.third_ability(self, hero_class, enemiy_l)
-                elif option == "r":
-                    return Combatant_izoteric.forth_ability(self, hero_class, enemiy_l)
+        while True:
+            if option == "a": #  and "blind" not in self.effects:
+                ability_0 = Combatant_izoteric.basic_attack_class(self, hero_class, enemiy_l)
+                if ability_0 != "error":
+                    return ability_0
+
+            elif option == "q":
+                ability_1 = Combatant_izoteric.first_ability(self, hero_class, enemiy_l)
+                if ability_1 != "error":
+                    return ability_1
                 else:
+                    print('\033[38;5;160mYou do not have enough mana\033[0;0m')
                     option = input("choose ability")
+
+            elif option == "w":
+                ability_2 = Combatant_izoteric.second_ability(self, hero_class, enemiy_l)
+                if ability_2 != "error":
+                    return ability_2
+                else:
+                    print('\033[38;5;160mYou do not have enough mana\033[0;0m')
+                    option = input("choose ability")
+
+            elif option == "e":
+                ability_3 = Combatant_izoteric.third_ability(self, hero_class, enemiy_l)
+                if ability_3 != "error":
+                    return ability_3
+                else:
+                    print('\033[38;5;160mYou do not have enough mana\033[0;0m')
+                    option = input("choose ability")
+
+            elif option == "r":
+                ability_4 = Combatant_izoteric.forth_ability(self, hero_class, enemiy_l)
+                if ability_4 != "error":
+                    return ability_4
+                else:
+                    print('\033[38;5;160mYou do not have enough mana\033[0;0m')
+                    option = input("choose ability")
+
+            else:
+                option = input("choose ability")
 
     def enemy_attack(self, allies):
         output = []
@@ -3090,24 +3120,24 @@ class Combatant_izoteric:
             for i in range(len(allies)):
 
                 output.append([Combatant_izoteric.crit_mechanic(self) * 1.2,
-                               [f"{random.choice([['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85])}2"]])
+                               [f"{random.choice(['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85)}2"]])
 
         else:
 
             Combatant_izoteric.get_lose_mana(self, 15)
-            attack_ally = random.choice(range(len(enemies_l)))
+            attack_ally = random.choice(range(len(allies)))
 
             for i in range(len(allies)):
-                if i == attack_enemy:
+                if i == attack_ally:
                     output.append([Combatant_izoteric.crit_mechanic(self) * 1.2,
-                                [f"{random.choice([['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85])}2"]])
+                                   [f"{random.choice(['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85)}2"]])
                 else:
                     output.append([0, []])
         return output, "pure", "damage"
 
     def list_of_effects(self):
         output = []
-        for k, v in self.effects.items():
+        for k, v in self.effects.item_fs():
             output.append(f"{k}{v}")
         return output
 
@@ -3115,28 +3145,29 @@ class Combatant_izoteric:
 
 def ability_effect(enemy_list, damage_effects):
     if damage_effects[1] == "magical":
-        for i, item in enumerate(enemy_list):
-            damage = damage_effects[0][i][0] - item.mr
-            Combatant_izoteric.deal_damage_heal(item, -damage)
+        for i, item_f in enumerate(enemy_list):
+            damage = damage_effects[0][i][0] - int(item_f.mr)
+
+            Combatant_izoteric.deal_damage_heal(item_f, -damage)
             for effect in damage_effects[0][i][1]:
                 if effect[0:-1] != "none":
-                    item.effects[effect[0:-1]] = int(effect[-1])
+                    item_f.effects[effect[0:-1]] = int(effect[-1])
     elif damage_effects[1] == "pure":
-        for i, item in enumerate(enemy_list):
+        for i, item_f in enumerate(enemy_list):
             damage = damage_effects[0][i][0]
-            Combatant_izoteric.deal_damage_heal(item, -damage)
+            Combatant_izoteric.deal_damage_heal(item_f, -damage)
             for effect in damage_effects[0][i][1]:
                 if effect[0:-1] != "none":
-                    item.effects[effect[0:-1]] = int(effect[-1])
+                    item_f.effects[effect[0:-1]] = int(effect[-1])
     elif damage_effects[1] == "error":
         return "again"
 
 
 
 def remove_dead_body(enemy_list):
-    for item in enemy_list:
-        if item.life[0] <= 0:
-            enemy_list.remove(item)
+    for item_f in enemy_list:
+        if item_f.life[0] <= 0:
+            enemy_list.remove(item_f)
     return enemy_list
 
 
@@ -3147,27 +3178,20 @@ def enter_a_turn(meesage):
             break
         else:
             print("You entered a wrong answer")
+            x = input(meesage)
     return True
 
 
 difficulty = 1
 
-enemy_l = [Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           ]
 enemies_len = random.choice(range(1, 7))
-enemy_l = [Combatant_izoteric("🤖", 900 / enemies_len , 0, [40 / enemies_len, 900 / enemies_len, 45 / enemies_len, 200, 0, 0, 3, 5, 0, 0, 45], "evil") for i in range(enemies_len)]
+enemy_l = [Combatant_izoteric("🤖", 90000 / enemies_len , 0, [40 / enemies_len, 90000 / enemies_len, 45 / enemies_len, 200, 0, 0, 3, 5, 0, 0, 45], "evil") for i in range(enemies_len)]
 
 
-enemy_l[0].effects["bleed"] = 4
+
 
 ally_l = []
-enemy_2 = Combatant_izoteric("🧙‍", 850, 70, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good", stats_from_items(read_inventory("ramulica.txt")))
+enemy_2 = Combatant_izoteric("🧙‍", 850, 70, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good", stats_from_item_fs(read_inventory("ramulica.txt")))
 print(enemy_2.primary)
 ally_l.append(enemy_2)
 
@@ -3175,31 +3199,53 @@ ally_l.append(enemy_2)
 
 print(enemy_2.mana)
 
-list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
-printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item) for item in enemy_l]), ally_l, enemy_l)
+list_of_e = [Combatant_izoteric.list_of_effects(item_f) for item_f in enemy_l]
+printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item_f) for item_f in enemy_l]), ally_l, enemy_l)
 outcome = "Lose"
+turn = 0
 while True:
-    if enter_a_turn("It's your turn to attack, enter c to continue"):
-        while True:
+    turn += 1
+    print(f"\n\033[38;5;220mIt's turn {turn}\033[0;0m\n")
+    if "freeze" in enemy_2.effects or "stun" in enemy_2.effects:
+        print(f"you are unable to attack because of your condition{enemy_2.effects}")
+    else:
+        if enter_a_turn("It's your turn to attack, enter c to continue"):
+
             damage_u_deal = Combatant_izoteric.use_ability(enemy_2, 'wizard', list_of_e)
             if damage_u_deal != "again":
-                ability_effect(enemy_l, damage_u_deal)
-                print(enemy_2.mana)
 
+                ability_effect(enemy_l, damage_u_deal)
+                print(f"\n\033[38;5;27mYour mana pool is {enemy_2.mana[0]}/{enemy_2.mana[1]}\033[0;0m")
+                print(f"You did \033[38;5;196m{damage_u_deal} damage\n\033[0;0m")
 
     enemy_l = remove_dead_body(enemy_l)
-    list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
-    printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item) for item in enemy_l]), ally_l, enemy_l)
+    list_of_e = [Combatant_izoteric.list_of_effects(item_f) for item_f in enemy_l]
+    printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item_f) for item_f in enemy_l]), ally_l, enemy_l)
 
-    for item in enemy_l:
-        Combatant_izoteric.round_end_effect(item)
-    for item in ally_l:
-        Combatant_izoteric.round_end_effect(item)
     if len(enemy_l) == 0:
         outcome = "Victory"
         break
 
-# Fa inamicii sa te atace, daca esti suned nu poti sa ataci(aigurate ca merge, datul inapoi in timp, daca ai burn iti iei damage
+    if enter_a_turn("It's enemy's turn to attack, enter c to continue"):
+
+        for i, item_f in enumerate(enemy_l):
+            if "freeze" in item_f.effects or "stun" in item_f.effects:
+                print(f"enemy {i+1} is unable to attack because of his condition{item_f.effects}")
+            else:
+                damage_dealt_by_enemy = Combatant_izoteric.enemy_attack(item_f, [enemy_2])
+                ability_effect([enemy_2], damage_dealt_by_enemy)
+                print(f"Enemy {i + 1} did \033[38;5;196m{damage_dealt_by_enemy} damage\033[0;0m to you")
+
+    printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)],
+                                [Combatant_izoteric.printable_symbols(item_f) for item_f in enemy_l]), ally_l, enemy_l)
+
+    for item_f in enemy_l:
+        Combatant_izoteric.round_end_effect(item_f)
+    for item_f in ally_l:
+        Combatant_izoteric.round_end_effect(item_f)
+
+
+
 
 
 
