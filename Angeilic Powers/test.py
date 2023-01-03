@@ -2618,8 +2618,8 @@ def create_item(item_name, difficulty):
     :return:
     """
     rarity = get_random_rarity(difficulty)
-    return f"{item_name} {rarity} {random_primary_stat(rarity)}" \
-           f" {random_secondary_stat(rarity)} {random_secondary_stat(rarity)} {random_secondary_stat(rarity)}"\
+    return f"{item_name}-{rarity}-{random_primary_stat(rarity)}-" \
+           f"{random_secondary_stat(rarity)} {random_secondary_stat(rarity)}-{random_secondary_stat(rarity)}"\
 
 
 def print_item(item):
@@ -2850,7 +2850,6 @@ class Map:
         self.room = room_e
 
 
-
 def add_random_doors():
     door_wall = ["up", "down"]
     for _ in range(5):
@@ -2864,16 +2863,6 @@ def add_random_doors():
             door_wall.extend(random.choice([['down', 'up'], ['up', 'down'], ['left', 'right']]))
     return door_wall[1::]
 
-
-# door_map_concatenation = add_random_doors()
-# biome = get_random_biome()
-# length_1, height_1 = generate_room_length_height()
-#
-# room_1 = Map(generate_rooms(biome, length_1, height_1),
-#              door_data(door_map_concatenation[0], biome, length_1, height_1, "Village"),
-#              door_data(door_map_concatenation[1], biome, length_1, height_1, 1), length_1, height_1)
-# print_room(room_1.room, biome)
-# print(room_1.list_of_enemies)
 def generate_arena(player, enemies):
     arena = [f"{' '* 54}"] * 15
     column_row_l = [[14, 12], [10, 11], [18, 11], [6, 10], [22, 10], [2, 9], [26, 9]]
@@ -2893,9 +2882,21 @@ def generate_arena(player, enemies):
 """
 player: [[][]]
 """
-def printe_arena(arena):
-    margin = f"\033[48;5;16m  \033[0;0m"
+def ordonate_hp(entities):
+    coordinates = [7, 5, 9, 3, 11, 1, 13]
+    life_row = ["  ", "      "] * 7
+    life_str = ""
+    for i in range(len(entities)):
 
+        life_row[coordinates[i]] = str(entities[i].life[0]).zfill(6)
+    for item in life_row:
+        life_str += item
+    return life_str
+
+
+def printe_arena(arena, ally_l, enemy_l):
+    margin = f"\033[48;5;16m  \033[0;0m"
+    print(f"\033[38;5;34m{ordonate_hp(enemy_l)}\033[0;0m")
     print(f"{margin}\033[48;5;16m{arena[0]}\033[0;0m{margin}")
     for item in arena[1:-1]:
         line = ""
@@ -2906,49 +2907,46 @@ def printe_arena(arena):
                 line += ch
         print(f"{margin}\033[48;5;236m{line}\033[0;0m{margin}")
     print(f"{margin}\033[48;5;16m{arena[-1]}\033[0;0m{margin}")
+    print(f"\033[38;5;34m{ordonate_hp(ally_l)}\033[0;0m")
+
     print("\nabilities")
-
-
-
-"""
-DATA
-intelligence(primary attribute): 40
-hp: 850
-damage: 45
-speed: 200
-crit chance: 0%
-crit hit damage: 0%
-armor: 3
-magic resistance: 5
-dodge : 0%
-control immunity : 0%
-mana: 70
-"""
-
-def data_sum(items, personal_stats):
-    pass
-
+    print(ally_l[0].life, ally_l[0].mana)
 
 def get_effect_symbol(effect):
-    effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸", "blind": "✨"}
+    effects = {"freeze": "❄", "burn": "🔥", "bleed": "🩸", "blind": "✨", "stun": "💫", "sleep": "💤", "taunt": "💢", "charm": "💞"}
     for k, v in effects.items():
         if effect == k:
             return v
 
+def stats_from_items(inventory):
+
+    added_stats = {"primary": 0, "armor": 0, "hp": 0, "crit": 0, "crit_dmg": 0, "speed": 0, "mr": 0,
+                   "dodge": 0, "cc_immun": 0, "mana": 0}
+    for item in inventory[7:13]:
+        item_stats = item.split("-")
+        print(item_stats)
+        for stat in item_stats[2::]:
+            added_stats[stat[0:stat.find(":")]] += float(stat[stat.rfind(" ") + 1::])
+    return added_stats
+
+
+
+
 class Combatant_izoteric:
-    def __init__(self, symbol, life, mana, data, good_bad_side):
+    def __init__(self, symbol, life, mana, data, good_bad_side, bonus = {"primary": 0, "armor": 0, "hp": 0, "crit": 0, "crit_dmg": 0, "speed": 0, "mr": 0,
+                   "dodge": 0, "cc_immun": 0, "mana": 0}):
         self.symbol = symbol
-        self.primary = data[0]
-        self.life = [life] + [data[1]]
-        self.damage = data[2]
-        self.speed = data[3]
-        self.crit = data[4]
-        self.crit_dmg = data[5]
-        self.armor = data[6]
-        self.mr = data[7]
-        self.dodge = data[8]
-        self.cc_immun = data[9]
-        self.mana = [mana] + [data[10]]
+        self.primary = data[0] + bonus["primary"]
+        self.life = [life + bonus["hp"]] + [data[1] + bonus["hp"]]
+        self.damage = data[2] + bonus["primary"]
+        self.speed = data[3] + bonus["speed"]
+        self.crit = data[4]  + bonus["crit"]
+        self.crit_dmg = data[5] + bonus["crit_dmg"]
+        self.armor = data[6] + bonus["armor"]
+        self.mr = data[7] + bonus["mr"]
+        self.dodge = data[8] + bonus["dodge"]
+        self.cc_immun = data[9] + bonus["cc_immun"]
+        self.mana = [mana + bonus["mana"]] + [data[10] + bonus["mana"]]
         self.side = good_bad_side
         self.effects = {}
 
@@ -3001,7 +2999,7 @@ class Combatant_izoteric:
                     output.append([Combatant_izoteric.crit_mechanic(self), [f'{random.choice(["freeze"] * 70 + ["none"] * 30)}2']])
             else:
                 print("not enough mana")
-                return "error"
+                return ["error"] * 3
         return output, "magical", "damage"
 
     def second_ability(self, hero_class, enemies_l):
@@ -3023,7 +3021,7 @@ class Combatant_izoteric:
                         output.append([0, []])
             else:
                 print("not enough mana")
-                return "error"
+                return ["error"] * 3
         return output, "magical", "damage"
 
     def third_ability(self, hero_class, enemies_effects_l):
@@ -3044,7 +3042,7 @@ class Combatant_izoteric:
                 return output, "magical", "round"
             else:
                 print("Not enough mana")
-                return "error"
+                return ["error"] * 3
 
     def forth_ability(self, hero_class, enemies_l):
         output = []
@@ -3062,30 +3060,58 @@ class Combatant_izoteric:
                         output.append([0, []])
             else:
                 print("not enough mana")
-                return "error"
+                return ["error"] * 3
         return output, "pure", "damage"
 
     def use_ability(self, hero_class, enemiy_l):
         option = input("choose ability")
-        while True:
-            if option == "a":
-                return Combatant_izoteric.basic_attack_class(self, hero_class, enemiy_l)
-            elif option == "q":
-                return Combatant_izoteric.first_ability(self, hero_class, enemiy_l)
-            elif option == "w":
-                return Combatant_izoteric.second_ability(self, hero_class, enemiy_l)
-            elif option == "e":
-                return Combatant_izoteric.third_ability(self, hero_class, enemiy_l)
-            elif option == "r":
-                return Combatant_izoteric.forth_ability(self, hero_class, enemiy_l)
-            else:
-                option = input("choose ability")
+        if "blind" in self.effects:
+            print("You are \033[38;5;196m blinded\033[0;0m, you can't use basic attack")
+        if "stun" in self.effects or "freeze" in self.effects:
+            return "dissabled"
+        else:
+            while True:
+                if option == "a" and "blind" not in self.effects:
+                    return Combatant_izoteric.basic_attack_class(self, hero_class, enemiy_l)
+                elif option == "q":
+                    return Combatant_izoteric.first_ability(self, hero_class, enemiy_l)
+                elif option == "w":
+                    return Combatant_izoteric.second_ability(self, hero_class, enemiy_l)
+                elif option == "e":
+                    return Combatant_izoteric.third_ability(self, hero_class, enemiy_l)
+                elif option == "r":
+                    return Combatant_izoteric.forth_ability(self, hero_class, enemiy_l)
+                else:
+                    option = input("choose ability")
+
+    def enemy_attack(self, allies):
+        output = []
+        if self.mana[0] == self.mana[1]:
+            for i in range(len(allies)):
+
+                output.append([Combatant_izoteric.crit_mechanic(self) * 1.2,
+                               [f"{random.choice([['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85])}2"]])
+
+        else:
+
+            Combatant_izoteric.get_lose_mana(self, 15)
+            attack_ally = random.choice(range(len(enemies_l)))
+
+            for i in range(len(allies)):
+                if i == attack_enemy:
+                    output.append([Combatant_izoteric.crit_mechanic(self) * 1.2,
+                                [f"{random.choice([['stun'] * 5 + ['burn'] * 5 + ['blind'] * 5 + ['none'] * 85])}2"]])
+                else:
+                    output.append([0, []])
+        return output, "pure", "damage"
 
     def list_of_effects(self):
         output = []
         for k, v in self.effects.items():
             output.append(f"{k}{v}")
         return output
+
+
 
 def ability_effect(enemy_list, damage_effects):
     if damage_effects[1] == "magical":
@@ -3095,13 +3121,17 @@ def ability_effect(enemy_list, damage_effects):
             for effect in damage_effects[0][i][1]:
                 if effect[0:-1] != "none":
                     item.effects[effect[0:-1]] = int(effect[-1])
-    if damage_effects[1] == "pure":
+    elif damage_effects[1] == "pure":
         for i, item in enumerate(enemy_list):
             damage = damage_effects[0][i][0]
             Combatant_izoteric.deal_damage_heal(item, -damage)
             for effect in damage_effects[0][i][1]:
                 if effect[0:-1] != "none":
                     item.effects[effect[0:-1]] = int(effect[-1])
+    elif damage_effects[1] == "error":
+        return "again"
+
+
 
 def remove_dead_body(enemy_list):
     for item in enemy_list:
@@ -3110,42 +3140,66 @@ def remove_dead_body(enemy_list):
     return enemy_list
 
 
+def enter_a_turn(meesage):
+    x = input(meesage)
+    while True:
+        if x == "c":
+            break
+        else:
+            print("You entered a wrong answer")
+    return True
 
 
+difficulty = 1
 
-
-enemy_l = [Combatant_izoteric("🤖", 700, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
-           Combatant_izoteric("🤖", 800, 50, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+enemy_l = [Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
+           Combatant_izoteric("🤖", 450, 50, [40, 450, 45, 200, 0, 0, 3, 5, 0, 0, 70], "evil"),
            ]
+enemies_len = random.choice(range(1, 7))
+enemy_l = [Combatant_izoteric("🤖", 900 / enemies_len , 0, [40 / enemies_len, 900 / enemies_len, 45 / enemies_len, 200, 0, 0, 3, 5, 0, 0, 45], "evil") for i in range(enemies_len)]
+
 
 enemy_l[0].effects["bleed"] = 4
 
+ally_l = []
+enemy_2 = Combatant_izoteric("🧙‍", 850, 70, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good", stats_from_items(read_inventory("ramulica.txt")))
+print(enemy_2.primary)
+ally_l.append(enemy_2)
 
-enemy_2 = Combatant_izoteric("🧙‍", 400, 70, [40, 850, 45, 200, 0, 0, 3, 5, 0, 0, 70], "good")
 
-
-enemy_l[1].effects["freeze"] = 1
-enemy_l[1].effects["burn"] = 1
 
 print(enemy_2.mana)
 
 list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
-print(f"enemy 1 life: {enemy_l[0].life}, enemy 2 life: {enemy_l[1].life}")
-print(f"enemy 1 effects: {enemy_l[0].effects}, enemy 2 effects: {enemy_l[1].effects}")
+printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item) for item in enemy_l]), ally_l, enemy_l)
+outcome = "Lose"
 while True:
-    ability_effect(enemy_l, Combatant_izoteric.use_ability(enemy_2, 'wizard', list_of_e))
-    print(enemy_2.mana)
+    if enter_a_turn("It's your turn to attack, enter c to continue"):
+        while True:
+            damage_u_deal = Combatant_izoteric.use_ability(enemy_2, 'wizard', list_of_e)
+            if damage_u_deal != "again":
+                ability_effect(enemy_l, damage_u_deal)
+                print(enemy_2.mana)
 
 
-    # testez w, trebuie sa faci sa vada daca freez in [ [] [] ] sa dai ceva de genul split 🙄
-    list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
-    for item in enemy_l:
-        print(item.life, item.effects)
     enemy_l = remove_dead_body(enemy_l)
+    list_of_e = [Combatant_izoteric.list_of_effects(item) for item in enemy_l]
+    printe_arena(generate_arena([Combatant_izoteric.printable_symbols(enemy_2)], [Combatant_izoteric.printable_symbols(item) for item in enemy_l]), ally_l, enemy_l)
+
     for item in enemy_l:
         Combatant_izoteric.round_end_effect(item)
+    for item in ally_l:
+        Combatant_izoteric.round_end_effect(item)
     if len(enemy_l) == 0:
+        outcome = "Victory"
         break
+
+# Fa inamicii sa te atace, daca esti suned nu poti sa ataci(aigurate ca merge, datul inapoi in timp, daca ai burn iti iei damage
 
 
 
