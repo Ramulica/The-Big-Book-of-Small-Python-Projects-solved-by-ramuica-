@@ -9,6 +9,7 @@ class Game_interface:
 
         self.root = tk.Tk()
         self.root.geometry('570x550')
+        self.root.resizable(0, 0)
         self.root.configure(bg='#3B194C')
 
         self.frame = tk.Frame(self.root, width=570, height=550, bg='#3B194C')
@@ -147,6 +148,7 @@ class Game_interface:
         exit_button.grid(row=3, column=2, padx=10, pady=10, sticky=tk.W + tk.E)
 
     def decide_best_move(self, bot):
+        time.sleep(2)
         # win situation
         not_bot = "x"
         if bot == "x":
